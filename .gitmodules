@@ -1,11 +1,11 @@
 [submodule "QuantLib"]
-    path = QuantLib
-    url = https://github.com/ChinaQuants/QuantLib.git
-    branch = master
+	path = QuantLib
+	url = https://github.com/ChinaQuants/QuantLib.git
+	branch = master
     ignore = dirty
 
 [submodule "QuantLib-SWIG"]
-    path = QuantLib-SWIG
-    url = https://github.com/ChinaQuants/QuantLib-SWIG.git
-    branch = master
+	path = QuantLib-SWIG
+	url = https://github.com/ChinaQuants/QuantLib-SWIG.git
+	branch = master
     ignore = dirty
