@@ -1,0 +1,4 @@
+#ifndef QLEXT_DEFINES_HPP
+#define QLEXT_DEFINES_HPP
+
+#endif
