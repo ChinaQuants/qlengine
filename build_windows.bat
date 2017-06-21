@@ -1,14 +1,25 @@
 @echo off
 
-set "QL_DIR=%cd%\QuantLib"
-set "INCLUDE=d:\dev\boost_1_63_0;%INCLUDE%"
+set "BOOST_ROOT=D:/dev/boost_1_64_0"
+set INCLUDE=%BOOST_ROOT%
+set QL_DIR=%CD%\QuantLib
 
 cd QuantLib
 
-set UseEnv=true
-msbuild QuantLib.sln /target:QuantLib /m /p:Configuration=Release /p:Platform=x64
+if exist build (
+  rem build folder already exists.
+) else (
+  mkdir build
+)
 
-cd ..\QuantLib-SWIG\Python
+mkdir build
+cd build
+
+cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_BUILD_TYPE=Release ..
+
+msbuild Project.sln /target:QuantLib /m /p:Configuration=Release /p:Platform=x64
+
+cd ..\..\QuantLib-SWIG\Python
 
 python setup.py wrap
 python setup.py build
