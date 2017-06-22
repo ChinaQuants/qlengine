@@ -4,6 +4,8 @@ cmake_minimum_required()
 # directory of the project to includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+
 set(BOOST_ROOT D:/dev/boost_1_64_0)
 
 find_package(Boost)

@@ -1,0 +1,6 @@
+.vs/*
+QuantLib/build/*
+QuantLib/lib/*
+QuantLib-Ext/build/*
+QuantLib-Ext/lib/*
+examples/.ipynb_checkpoints
