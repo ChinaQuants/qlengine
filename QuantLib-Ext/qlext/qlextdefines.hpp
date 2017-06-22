@@ -1,4 +1,4 @@
-#ifndef QLEXT_DEFINES_HPP
-#define QLEXT_DEFINES_HPP
+#ifndef qlext_defines_hpp
+#define qlext_defines_hpp
 
 #endif

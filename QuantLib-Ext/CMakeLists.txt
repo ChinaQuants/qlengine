@@ -3,6 +3,8 @@ cmake_minimum_required()
 # to reference headers via <ql/foo.hpp>, we need to add the root
 # directory of the project to includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/lib)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
@@ -14,3 +16,4 @@ if (Boost_FOUND)
 endif (Boost_FOUND)
 
 add_subdirectory(qlext)
+add_subdirectory(examples)
