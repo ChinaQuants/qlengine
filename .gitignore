@@ -4,3 +4,10 @@ QuantLib/lib/*
 QuantLib-Ext/build/*
 QuantLib-Ext/lib/*
 examples/.ipynb_checkpoints
+QuantLib-Ext/autom4te.cache
+Makefile
+Makefile.in
+configure
+config.log
+config.status
+*-h1
