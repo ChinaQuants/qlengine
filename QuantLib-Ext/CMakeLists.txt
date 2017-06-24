@@ -5,10 +5,9 @@ cmake_minimum_required()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/lib)
+link_directories($ENV{BOOST_ROOT}/stage/lib)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-
-set(BOOST_ROOT D:/dev/boost_1_64_0)
 
 find_package(Boost)
 if (Boost_FOUND)
@@ -17,3 +16,7 @@ endif (Boost_FOUND)
 
 add_subdirectory(qlext)
 add_subdirectory(examples)
+
+option(USE_BOOST_DYNAMIC_LIBRARIES
+       "Use the shared version of Boost.Test" OFF)
+add_subdirectory(test-suite)
