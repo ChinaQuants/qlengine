@@ -3,6 +3,7 @@
 set "BOOST_ROOT=D:/dev/boost_1_64_0"
 set INCLUDE=%BOOST_ROOT%
 set QL_DIR=%CD%\QuantLib
+set QLEXT_DIR=%CD%\QuantLib-Ext
 
 cd QuantLib
 

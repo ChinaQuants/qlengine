@@ -18,8 +18,8 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-#ifndef quantlib_autolink_hpp
-#define quantlib_autolink_hpp
+#ifndef qlext_autolink_hpp
+#define qlext_autolink_hpp
 
 #include <ql/version.hpp>
 #include <boost/config.hpp>
