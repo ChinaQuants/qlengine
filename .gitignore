@@ -14,3 +14,9 @@ config.status
 QuantLib-Ext/bin/*
 *.Plo
 *.Po
+*so*
+*.o
+*.a
+*.la
+*.lo
+*.lai
