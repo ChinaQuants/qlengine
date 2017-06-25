@@ -11,3 +11,6 @@ configure
 config.log
 config.status
 *-h1
+QuantLib-Ext/bin/*
+*.Plo
+*.Po

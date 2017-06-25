@@ -55,6 +55,9 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Define this if your compiler does not support Boost::uBLAS. */
+#undef QL_NO_UBLAS_SUPPORT
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
