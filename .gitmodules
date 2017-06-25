@@ -4,3 +4,6 @@
 	branch = master
     ignore = dirty
 
+[submodule "QuantLib-SWIG"]
+	path = QuantLib-SWIG
+	url = https://github.com/ChinaQuants/QuantLib-SWIG.git
