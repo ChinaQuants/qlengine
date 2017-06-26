@@ -5,7 +5,7 @@ bash autogen.sh
 ./configure prefix=$PWD
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
-export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
 
 make -j 8
 make install
@@ -15,7 +15,7 @@ bash autogen.sh
 ./configure prefix=$PWD
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
-export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
 
 make -j 8
 make install
