@@ -18,7 +18,7 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 #include "utilities.hpp"
 #include <qlext/instruments/bonds/ctbfixedbond.hpp>
 #include <qlext/instruments/bonds/ctbzerobond.hpp>
-#include <ql/time/daycounters/actualactual.hpp>
+#include <qlext/time/daycounters/actualactualnl.hpp>
 #include <ql/time/calendars/target.hpp>
 
 using namespace QuantLib;
@@ -85,7 +85,7 @@ void BondTest::testCachedCTBZero() {
     Real faceAmount = 100.0;
     Real issuePrice = 97.9030;
     Real redemption = 100.0;
-	ActualActual accrualDayCounter(ActualActual::ISMA);
+	ActualActualNoLeap accrualDayCounter;
     BusinessDayConvention paymentConvention = Unadjusted;
     CTBZeroBond bond(settlementDays,
         calendar,
@@ -150,7 +150,7 @@ void BondTest::testCachedCTBZero() {
             Date maturity(16, Aug, 2017);
             Period tenor = 1 * Years;
             Natural settlementDays = 1;
-            ActualActual accrualDayCounter(ActualActual::ISMA);
+            ActualActualNoLeap accrualDayCounter;
             Rate coupon = 0.0295;
             std::vector<Rate> coupons(1, coupon);
             Real faceAmount = 100.0;
