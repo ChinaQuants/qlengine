@@ -6,7 +6,9 @@ this_includedir = ${includedir}/${subdir}
 
 this_include_HEADERS = \
 	config.hpp \
-	qlextdefines.hpp
+	auto_link.hpp \
+	qlextdefines.hpp \
+	quantlibext.hpp
 
 libQuantLibExt_la_SOURCES =
 
