@@ -10,6 +10,7 @@
 
 * 更加容易使用的安装脚本。
 
+
 ## 依赖
 
 * boost >= 1.58.0 
@@ -26,6 +27,21 @@
 
 其中QuantLib以及QuantLib-SWIG已经作为依赖的模块加入。
 
+## 下载
+
+源代码可以使用如下方式下载：
+
+```bash
+git clone https://github.com/ChinaQuants/qlengine.git
+```
+
+该项目有子模块的依赖，所以还需要完成下面的步骤，下载子模块：
+
+```bash
+cd qlengine
+git submodule init
+git submodule update
+```
 
 ## 安装
 
@@ -54,7 +70,5 @@
 安装完成以后，可以在python环境中运行如下语句：
 
 ```python
-
 from QuantLib import *
-
 ```
