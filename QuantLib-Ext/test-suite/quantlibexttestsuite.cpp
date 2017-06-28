@@ -18,8 +18,8 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-#include <ql/types.hpp>
 #include <ql/settings.hpp>
+#include <ql/types.hpp>
 #include <ql/utilities/dataparsers.hpp>
 #include <ql/version.hpp>
 
@@ -37,9 +37,9 @@
 #ifdef BOOST_MSVC
 #include <qlext/auto_link.hpp>
 #ifndef QL_ENABLE_PARALLEL_UNIT_TEST_RUNNER
-#  define BOOST_LIB_NAME boost_unit_test_framework
-#  include <boost/config/auto_link.hpp>
-#  undef BOOST_LIB_NAME
+#define BOOST_LIB_NAME boost_unit_test_framework
+#include <boost/config/auto_link.hpp>
+#undef BOOST_LIB_NAME
 #endif
 
 /* uncomment the following lines to unmask floating-point exceptions.
@@ -49,61 +49,60 @@
 //   namespace { unsigned int u = _controlfp(_EM_INEXACT, _MCW_EM); }
 
 #endif
-#include "utilities.hpp"
 #include "speedlevel.hpp"
+#include "utilities.hpp"
 
 #include "bonds.hpp"
 #include "calibratedcurve.hpp"
-#include "swaps.hpp"
 #include "daycounters.hpp"
+#include "swaps.hpp"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 using namespace boost::unit_test_framework;
 
 namespace {
 
-    boost::timer t;
+boost::timer t;
 
-    void startTimer() { t.restart(); }
-    void stopTimer() {
-        double seconds = t.elapsed();
-        int hours = int(seconds/3600);
-        seconds -= hours * 3600;
-        int minutes = int(seconds/60);
-        seconds -= minutes * 60;
-        std::cout << " \nTests completed in ";
-        if (hours > 0)
-            std::cout << hours << " h ";
-        if (hours > 0 || minutes > 0)
-            std::cout << minutes << " m ";
-        std::cout << std::fixed << std::setprecision(0)
-                  << seconds << " s\n" << std::endl;
-    }
-
-    void configure(QuantLib::Date evaluationDate) {
-        /* if needed, a subset of the lines below can be
-           uncommented and/or changed to run the test suite with a
-           different configuration. In the future, we'll need a
-           mechanism that doesn't force us to recompile (possibly a
-           couple of command-line flags for the test suite?)
-        */
-
-        // QuantLib::Settings::instance().includeReferenceDateCashFlows() = true;
-        // QuantLib::Settings::instance().includeTodaysCashFlows() = boost::none;
-
-        QuantLib::Settings::instance().evaluationDate() = evaluationDate;
-    }
-
+void startTimer() { t.restart(); }
+void stopTimer() {
+    double seconds = t.elapsed();
+    int hours = int(seconds / 3600);
+    seconds -= hours * 3600;
+    int minutes = int(seconds / 60);
+    seconds -= minutes * 60;
+    std::cout << " \nTests completed in ";
+    if (hours > 0)
+        std::cout << hours << " h ";
+    if (hours > 0 || minutes > 0)
+        std::cout << minutes << " m ";
+    std::cout << std::fixed << std::setprecision(0) << seconds << " s\n" << std::endl;
 }
+
+void configure(QuantLib::Date evaluationDate) {
+    /* if needed, a subset of the lines below can be
+       uncommented and/or changed to run the test suite with a
+       different configuration. In the future, we'll need a
+       mechanism that doesn't force us to recompile (possibly a
+       couple of command-line flags for the test suite?)
+    */
+
+    // QuantLib::Settings::instance().includeReferenceDateCashFlows() = true;
+    // QuantLib::Settings::instance().includeTodaysCashFlows() = boost::none;
+
+    QuantLib::Settings::instance().evaluationDate() = evaluationDate;
+}
+
+} // namespace
 
 #if defined(QL_ENABLE_SESSIONS)
 namespace QuantLib {
 
-    Integer sessionId() { return 0; }
+Integer sessionId() { return 0; }
 
-}
+} // namespace QuantLib
 #endif
 
 QuantLib::Date evaluation_date(int argc, char** argv) {
@@ -119,10 +118,9 @@ QuantLib::Date evaluation_date(int argc, char** argv) {
         - 2016-02-29 causes two tests to fail.
     */
 
-    QuantLib::Date knownGoodDefault =
-        QuantLib::Date(16, QuantLib::September, 2015);
+    QuantLib::Date knownGoodDefault = QuantLib::Date(16, QuantLib::September, 2015);
 
-    for (int i=1; i<argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--date=today")
             return QuantLib::Date::todaysDate();
@@ -132,7 +130,6 @@ QuantLib::Date evaluation_date(int argc, char** argv) {
     return knownGoodDefault;
 }
 
-
 SpeedLevel speed_level(int argc, char** argv) {
     /*! Again, dead simple parser:
         - passing --slow causes all tests to be run;
@@ -141,7 +138,7 @@ SpeedLevel speed_level(int argc, char** argv) {
         - passing nothing is the same as --slow
     */
 
-    for (int i=1; i<argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--slow")
             return Slow;
@@ -153,57 +150,50 @@ SpeedLevel speed_level(int argc, char** argv) {
     return Slow;
 }
 
-
 test_suite* init_unit_test_suite(int, char* []) {
 
     int argc = boost::unit_test::framework::master_test_suite().argc;
-    char **argv = boost::unit_test::framework::master_test_suite().argv;
+    char** argv = boost::unit_test::framework::master_test_suite().argv;
     configure(evaluation_date(argc, argv));
     SpeedLevel speed = speed_level(argc, argv);
 
     const QuantLib::Settings& settings = QuantLib::Settings::instance();
     std::ostringstream header;
-    header <<
-        " Testing "
-        #ifdef BOOST_MSVC
+    header << " Testing "
+#ifdef BOOST_MSVC
         QLEXT_LIB_NAME
-        #else
-        "QuantLib " QL_VERSION
-        #endif
-        "\n  QL_NEGATIVE_RATES "
-        #ifdef QL_NEGATIVE_RATES
-        "       defined"
-        #else
-        "     undefined"
-        #endif
-        "\n  QL_EXTRA_SAFETY_CHECKS "
-        #ifdef QL_EXTRA_SAFETY_CHECKS
-        "  defined"
-        #else
-        "undefined"
-        #endif
-        "\n  QL_USE_INDEXED_COUPON "
-        #ifdef QL_USE_INDEXED_COUPON
-        "   defined"
-        #else
-        " undefined"
-        #endif
-        "\n"
+#else
+              "QuantLib " QL_VERSION
+#endif
+              "\n  QL_NEGATIVE_RATES "
+#ifdef QL_NEGATIVE_RATES
+              "       defined"
+#else
+              "     undefined"
+#endif
+              "\n  QL_EXTRA_SAFETY_CHECKS "
+#ifdef QL_EXTRA_SAFETY_CHECKS
+              "  defined"
+#else
+              "undefined"
+#endif
+              "\n  QL_USE_INDEXED_COUPON "
+#ifdef QL_USE_INDEXED_COUPON
+              "   defined"
+#else
+              " undefined"
+#endif
+              "\n"
            << "evaluation date is " << settings.evaluationDate() << ",\n"
-           << (settings.includeReferenceDateEvents()
-               ? "reference date events are included,\n"
-               : "reference date events are excluded,\n")
-           << (settings.includeTodaysCashFlows() == boost::none ?
-               "" : (*settings.includeTodaysCashFlows() ?
-                     "today's cashflows are included,\n"
-                     : "today's cashflows are excluded,\n"))
-           << (settings.enforcesTodaysHistoricFixings()
-               ? "today's historic fixings are enforced."
-               : "today's historic fixings are not enforced.")
-           << "\nRunning "
-           << (speed == Faster ? "faster" :
-               (speed == Fast ?   "fast" : "all"))
-           << " tests.";
+           << (settings.includeReferenceDateEvents() ? "reference date events are included,\n"
+                                                     : "reference date events are excluded,\n")
+           << (settings.includeTodaysCashFlows() == boost::none
+                   ? ""
+                   : (*settings.includeTodaysCashFlows() ? "today's cashflows are included,\n"
+                                                         : "today's cashflows are excluded,\n"))
+           << (settings.enforcesTodaysHistoricFixings() ? "today's historic fixings are enforced."
+                                                        : "today's historic fixings are not enforced.")
+           << "\nRunning " << (speed == Faster ? "faster" : (speed == Fast ? "fast" : "all")) << " tests.";
 
     std::string rule = std::string(41, '=');
 
@@ -215,10 +205,10 @@ test_suite* init_unit_test_suite(int, char* []) {
     test->add(QUANTLIB_TEST_CASE(startTimer));
 
     test->add(BondTest::suite());
-	test->add(CalibratedCurveTest::suite());
+    test->add(CalibratedCurveTest::suite());
     test->add(DayCounterTest::suite());
-	test->add(SwapTest::suite());
-    
+    test->add(SwapTest::suite());
+
     test->add(QUANTLIB_TEST_CASE(stopTimer));
 
     return test;

@@ -6,26 +6,20 @@
 
 namespace QuantLib {
 
-    class CTBZeroBond : public Bond {
-      public:
-        CTBZeroBond(Natural settlementDays,
-                    const Calendar& calendar,
-                    Real faceAmount,
-                    Real issuePrice,
-                    const Date& issueDate,
-                    const DayCounter& accrualDayCounter,
-                    const Date& maturityDate,
-                    BusinessDayConvention paymentConvention = Following,
-                    Real redemption = 100.0);
+class CTBZeroBond : public Bond {
+public:
+    CTBZeroBond(Natural settlementDays, const Calendar& calendar, Real faceAmount, Real issuePrice,
+                const Date& issueDate, const DayCounter& accrualDayCounter, const Date& maturityDate,
+                BusinessDayConvention paymentConvention = Following, Real redemption = 100.0);
 
-        Real accruedAmount(Date settleDate = Date()) const;
-        const DayCounter& dayCounter() const { return this->dayCounter_; }
+    Real accruedAmount(Date settleDate = Date()) const;
+    const DayCounter& dayCounter() const { return this->dayCounter_; }
 
-      private:
-        Real issueValue_;
-        DayCounter dayCounter_;
-    };
+private:
+    Real issueValue_;
+    DayCounter dayCounter_;
+};
 
-}
+} // namespace QuantLib
 
 #endif

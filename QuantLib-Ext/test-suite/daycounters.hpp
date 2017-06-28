@@ -26,10 +26,9 @@
    comment block of the corresponding class */
 
 class DayCounterTest {
-   public:
-	static void testActualActualNoLeap();
+public:
+    static void testActualActualNoLeap();
     static boost::unit_test_framework::test_suite* suite();
 };
-
 
 #endif

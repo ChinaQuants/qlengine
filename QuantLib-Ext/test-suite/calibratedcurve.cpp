@@ -18,111 +18,106 @@
 */
 
 #include "calibratedcurve.hpp"
-#include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
-#include <ql/pricingengines/swap/discountingswapengine.hpp>
-#include <qlext/termstructures/yield/ratehelpers.hpp>
+#include "utilities.hpp"
 #include <ql/indexes/ibor/shibor.hpp>
-#include <qlext/instruments/shiborswap.hpp>
+#include <ql/pricingengines/swap/discountingswapengine.hpp>
+#include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
 #include <ql/time/calendars/china.hpp>
 #include <ql/utilities/dataformatters.hpp>
-#include "utilities.hpp"
-
+#include <qlext/instruments/shiborswap.hpp>
+#include <qlext/termstructures/yield/ratehelpers.hpp>
 
 using namespace QuantLib;
 using namespace boost::unit_test_framework;
 
 namespace {
 
-	struct CommonVars {
-		// common data
-		Calendar calendar;
-		Date today;
-		Date spotDate;
-		Real faceAmount;
+struct CommonVars {
+    // common data
+    Calendar calendar;
+    Date today;
+    Date spotDate;
+    Real faceAmount;
 
-		std::vector<boost::shared_ptr<RateHelper> > instruments;
-		std::vector<boost::shared_ptr<SimpleQuote> > rates;
-		std::vector<Period> tenors;
-		boost::shared_ptr<YieldTermStructure> termStructure;
+    std::vector<boost::shared_ptr<RateHelper>> instruments;
+    std::vector<boost::shared_ptr<SimpleQuote>> rates;
+    std::vector<Period> tenors;
+    boost::shared_ptr<YieldTermStructure> termStructure;
 
-		// cleanup
-		SavedSettings backup;
+    // cleanup
+    SavedSettings backup;
 
-		// setup
-		CommonVars() {
-			calendar = China(China::IB);
-			today = calendar.adjust(Date::todaysDate());
+    // setup
+    CommonVars() {
+        calendar = China(China::IB);
+        today = calendar.adjust(Date::todaysDate());
 
-			Settings::instance().evaluationDate() = today;
+        Settings::instance().evaluationDate() = today;
 
-			Rate rs[] = { 0.02, 0.022, 0.024, 0.026, 0.028 };
-			Integer years[] = { 1, 2, 3, 4, 5 };
+        Rate rs[] = {0.02, 0.022, 0.024, 0.026, 0.028};
+        Integer years[] = {1, 2, 3, 4, 5};
 
-			rates = std::vector<boost::shared_ptr<SimpleQuote> >(LENGTH(rs));
-			tenors = std::vector<Period>(LENGTH(rs));
+        rates = std::vector<boost::shared_ptr<SimpleQuote>>(LENGTH(rs));
+        tenors = std::vector<Period>(LENGTH(rs));
 
-			for (Size i = 0; i<rates.size(); ++i) {
-				rates[i] = boost::shared_ptr<SimpleQuote>(new SimpleQuote(rs[i]));
-				tenors[i] = years[i] * Years;
-			}
+        for (Size i = 0; i < rates.size(); ++i) {
+            rates[i] = boost::shared_ptr<SimpleQuote>(new SimpleQuote(rs[i]));
+            tenors[i] = years[i] * Years;
+        }
 
-			instruments = std::vector<boost::shared_ptr<RateHelper> >(LENGTH(rs));
-			boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months));
+        instruments = std::vector<boost::shared_ptr<RateHelper>>(LENGTH(rs));
+        boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months));
 
-			spotDate = today + shiborIndex->fixingDays() * Days;
-			spotDate = calendar.adjust(spotDate);
+        spotDate = today + shiborIndex->fixingDays() * Days;
+        spotDate = calendar.adjust(spotDate);
 
-			for (Size i = 0; i<rates.size(); ++i) {
-				Handle<Quote> r(rates[i]);
-				instruments[i] = boost::shared_ptr<ShiborSwapRateHelper>(new
-					ShiborSwapRateHelper(r, tenors[i], Quarterly, shiborIndex));
-			}
-		}
-	};
+        for (Size i = 0; i < rates.size(); ++i) {
+            Handle<Quote> r(rates[i]);
+            instruments[i] =
+                boost::shared_ptr<ShiborSwapRateHelper>(new ShiborSwapRateHelper(r, tenors[i], Quarterly, shiborIndex));
+        }
+    }
+};
 
-}
-
+} // namespace
 
 void CalibratedCurveTest::testCalibratedShiborSwapCurve() {
 
-	BOOST_TEST_MESSAGE("Testing shibor-swap yield curve construction...");
+    BOOST_TEST_MESSAGE("Testing shibor-swap yield curve construction...");
 
-	CommonVars vars;
+    CommonVars vars;
 
-	Real tolerance = 1.e-9;
+    Real tolerance = 1.e-9;
 
-	vars.termStructure = boost::shared_ptr<YieldTermStructure>(new
-		PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(vars.today, vars.instruments, Actual365Fixed(), Linear()));
+    vars.termStructure =
+        boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(
+            vars.today, vars.instruments, Actual365Fixed(), Linear()));
 
-	RelinkableHandle<YieldTermStructure> curveHandle;
-	curveHandle.linkTo(vars.termStructure);
+    RelinkableHandle<YieldTermStructure> curveHandle;
+    curveHandle.linkTo(vars.termStructure);
 
-	boost::shared_ptr<Shibor> shiborIndex(new Shibor(3*Months, curveHandle));
+    boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months, curveHandle));
 
-	for(Size i=0; i<vars.instruments.size(); ++i) {
-		ShiborSwap swap(ShiborSwap::Payer, 1., vars.spotDate, vars.tenors[i], 3*Months, 0., shiborIndex);
+    for (Size i = 0; i < vars.instruments.size(); ++i) {
+        ShiborSwap swap(ShiborSwap::Payer, 1., vars.spotDate, vars.tenors[i], 3 * Months, 0., shiborIndex);
 
-		Handle<YieldTermStructure> disc = shiborIndex->forwardingTermStructure();
+        Handle<YieldTermStructure> disc = shiborIndex->forwardingTermStructure();
         bool includeSettlementDateFlows = false;
         boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(disc, includeSettlementDateFlows));
         swap.setPricingEngine(engine);
 
-		Rate expectedRate = vars.rates[i]->value();
-		Rate estimatedRate = swap.fairRate();
-		Spread error = std::fabs(expectedRate - estimatedRate);
+        Rate expectedRate = vars.rates[i]->value();
+        Rate estimatedRate = swap.fairRate();
+        Spread error = std::fabs(expectedRate - estimatedRate);
 
-		if (error > tolerance) {
-			BOOST_ERROR(
-				vars.tenors[i] << " year(s) swap:\n"
-				<< std::setprecision(8)
-				<< "\n estimated rate: " << io::rate(estimatedRate)
-				<< "\n expected rate:  " << io::rate(expectedRate)
-				<< "\n error:          " << io::rate(error)
-				<< "\n tolerance:      " << io::rate(tolerance));
-		}
-	}
+        if (error > tolerance) {
+            BOOST_ERROR(vars.tenors[i] << " year(s) swap:\n"
+                                       << std::setprecision(8) << "\n estimated rate: " << io::rate(estimatedRate)
+                                       << "\n expected rate:  " << io::rate(expectedRate) << "\n error:          "
+                                       << io::rate(error) << "\n tolerance:      " << io::rate(tolerance));
+        }
+    }
 }
-
 
 test_suite* CalibratedCurveTest::suite() {
     test_suite* suite = BOOST_TEST_SUITE("Calibrated curve tests");

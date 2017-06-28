@@ -20,10 +20,6 @@
 #ifndef qlext_test_speed_level_hpp
 #define qlext_test_speed_level_hpp
 
-enum SpeedLevel {
-    Slow   = 0,
-    Fast   = 1,
-    Faster = 2
-};
+enum SpeedLevel { Slow = 0, Fast = 1, Faster = 2 };
 
 #endif

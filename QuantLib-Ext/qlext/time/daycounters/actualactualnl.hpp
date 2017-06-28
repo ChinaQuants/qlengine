@@ -26,36 +26,25 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 
 #include <ql/time/daycounter.hpp>
 
-namespace QuantLib
-{
+namespace QuantLib {
 
 //! Actual/Actual no leap day count
 /*! The day count can be calculated according to:
-    */
-class ActualActualNoLeap : public DayCounter
-{
-  private:
-    class Impl : public DayCounter::Impl
-    {
-      public:
-        std::string name() const
-        {
-            return std::string("Actual/Actual (NL)");
-        }
+ */
+class ActualActualNoLeap : public DayCounter {
+private:
+    class Impl : public DayCounter::Impl {
+    public:
+        std::string name() const { return std::string("Actual/Actual (NL)"); }
 
-        Time yearFraction(const Date &d1,
-                          const Date &d2,
-                          const Date &refPeriodStart,
-                          const Date &refPeriodEnd) const;
+        Time yearFraction(const Date& d1, const Date& d2, const Date& refPeriodStart, const Date& refPeriodEnd) const;
 
-        Date::serial_type dayCount(const Date &d1, const Date &d2) const;
+        Date::serial_type dayCount(const Date& d1, const Date& d2) const;
     };
 
-  public:
-    ActualActualNoLeap()
-        : DayCounter(boost::shared_ptr<DayCounter::Impl>(
-              new ActualActualNoLeap::Impl)) {}
+public:
+    ActualActualNoLeap() : DayCounter(boost::shared_ptr<DayCounter::Impl>(new ActualActualNoLeap::Impl)) {}
 };
-}
+} // namespace QuantLib
 
 #endif

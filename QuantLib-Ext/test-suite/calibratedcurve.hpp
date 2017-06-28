@@ -22,7 +22,6 @@
 
 #include <boost/test/unit_test.hpp>
 
-
 class CalibratedCurveTest {
 public:
     static void testCalibratedShiborSwapCurve();
