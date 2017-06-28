@@ -19,10 +19,12 @@
 
 #include <boost/make_shared.hpp>
 #include <qlext/termstructures/yield/ratehelpers.hpp>
+#include <ql/cashflows/iborcoupon.hpp>
 #include <ql/indexes/ibor/shibor.hpp>
 #include <ql/time/calendars/china.hpp>
 #include <ql/pricingengines/swap/discountingswapengine.hpp>
 #include <qlext/instruments/shiborswap.hpp>
+#include <ql/utilities/null_deleter.hpp>
 
 namespace QuantLib {
 
@@ -43,7 +45,7 @@ namespace QuantLib {
         registerWith(discountHandle_);
 
         initializeDates();
-        
+
     }
 
     void ShiborSwapRateHelper::initializeDates() {
@@ -63,9 +65,17 @@ namespace QuantLib {
         swap_ = boost::make_shared<ShiborSwap>(VanillaSwap::Payer, 1., startDate, tenor_, Period(fixedFrequency_), 0., shiborIndex_);
 
 		bool includeSettlementDateFlows = false;
-		boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(discountHandle_, includeSettlementDateFlows));
+		boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(discountRelinkableHandle_, includeSettlementDateFlows));
 
 		swap_->setPricingEngine(engine);
+
+		earliestDate_ = swap_->startDate();
+        maturityDate_ = swap_->maturityDate();
+
+		boost::shared_ptr<IborCoupon> lastCoupon =
+            boost::dynamic_pointer_cast<IborCoupon>(swap_->floatingLeg().back());
+        latestRelevantDate_ = std::max(maturityDate_, lastCoupon->fixingEndDate());
+		latestDate_ = maturityDate_;
     }
 
 	void ShiborSwapRateHelper::accept(AcyclicVisitor& v) {
@@ -87,5 +97,21 @@ namespace QuantLib {
 		Real totNPV = -floatingLegNPV;
 		Real result = totNPV / (swap_->fixedLegBPS() / basisPoint);
 		return result;
+	}
+
+	void ShiborSwapRateHelper::setTermStructure(YieldTermStructure* t) {
+		// do not set the relinkable handle as an observer -
+		// force recalculation when needed---the index is not lazy
+		bool observer = false;
+
+		boost::shared_ptr<YieldTermStructure> temp(t, null_deleter());
+		termStructureHandle_.linkTo(temp, observer);
+
+		if (discountHandle_.empty())
+			discountRelinkableHandle_.linkTo(temp, observer);
+		else
+			discountRelinkableHandle_.linkTo(*discountHandle_, observer);
+
+		RelativeDateRateHelper::setTermStructure(t);
 	}
 }

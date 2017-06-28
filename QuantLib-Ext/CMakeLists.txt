@@ -8,6 +8,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/lib)
 link_directories($ENV{BOOST_ROOT}/stage/lib)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 find_package(Boost)
 if (Boost_FOUND)

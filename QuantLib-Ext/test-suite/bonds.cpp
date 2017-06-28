@@ -191,9 +191,9 @@ void BondTest::testCachedCTBZero() {
                     }
                 }
 
-                test_suite* BondTest::suite() {
-                    test_suite* suite = BOOST_TEST_SUITE("Bond tests");
-                    suite->add(QUANTLIB_TEST_CASE(&BondTest::testCachedCTBZero));
-                    suite->add(QUANTLIB_TEST_CASE(&BondTest::testCachedCTBFixed));
-                    return suite;
-                }
+test_suite* BondTest::suite() {
+    test_suite* suite = BOOST_TEST_SUITE("Bond tests");
+    suite->add(QUANTLIB_TEST_CASE(&BondTest::testCachedCTBZero));
+    suite->add(QUANTLIB_TEST_CASE(&BondTest::testCachedCTBFixed));
+    return suite;
+}
