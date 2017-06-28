@@ -3,6 +3,7 @@ QL_TESTS = \
 	quantlibexttestsuite.cpp \
 	speedlevel.hpp \
 	bonds.hpp bonds.cpp \
+	swap.hpp swap.cpp \
 	utilities.hpp utilities.cpp
 
 dist-hook:

@@ -53,7 +53,8 @@
 #include "speedlevel.hpp"
 
 #include "bonds.hpp"
-#include "daycounters.cpp"
+#include "swaps.hpp"
+#include "daycounters.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -214,6 +215,7 @@ test_suite* init_unit_test_suite(int, char* []) {
 
     test->add(BondTest::suite());
     test->add(DayCounterTest::suite());
+	test->add(SwapTest::suite());
     
     test->add(QUANTLIB_TEST_CASE(stopTimer));
 

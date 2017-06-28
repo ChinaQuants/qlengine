@@ -22,7 +22,6 @@
 #include "daycounters.hpp"
 #include "utilities.hpp"
 #include <qlext/time/daycounters/actualactualnl.hpp>
-#include <ql/time/period.hpp>
 #include <iomanip>
 
 using namespace QuantLib;
