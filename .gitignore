@@ -20,3 +20,8 @@ QuantLib-Ext/bin/*
 *.la
 *.lo
 *.lai
+QuantLib-Ext/qlext/config.hpp.in~
+QuantLib-Ext/test-suite/.libs
+QuantLib-Ext/examples/CTBZeroBond/.libs
+QuantLib-Ext/test-suite/quantlibext-test-suite
+QuantLib-Ext/examples/CTBZeroBond/CTBZeroBond
