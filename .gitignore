@@ -25,3 +25,9 @@ QuantLib-Ext/test-suite/.libs
 QuantLib-Ext/examples/CTBZeroBond/.libs
 QuantLib-Ext/test-suite/quantlibext-test-suite
 QuantLib-Ext/examples/CTBZeroBond/CTBZeroBond
+QuantLib-Ext/include
+QuantLib-Ext/qlext/time/.libs
+QuantLib-Ext/qlext/time/daycounters/.deps
+QuantLib-Ext/qlext/time/daycounters/.libs
+QuantLib-Ext/qlext/.libs
+QuantLib-Ext/qlext/termstructures/.libs
