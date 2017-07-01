@@ -21,6 +21,10 @@
 
     生成需要的python wrapper。
 
+* cmake >= 3.0.0
+
+    在Windows下生成所需的 Visual Studio 项目文件。
+
 * QuantLib >= 1.10.0
 
 * QuantLib-SWIG >= 1.10.0
