@@ -1,9 +1,11 @@
 
 QL_TESTS = \
 	quantlibexttestsuite.cpp \
+	daycounters.hpp daycounters.cpp \
 	speedlevel.hpp \
 	bonds.hpp bonds.cpp \
-	swap.hpp swap.cpp \
+	calibratedcurve.hpp calibratedcurve.cpp \
+	swaps.hpp swaps.cpp \
 	utilities.hpp utilities.cpp
 
 dist-hook:

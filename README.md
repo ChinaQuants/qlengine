@@ -49,7 +49,19 @@ git submodule update
 
 ## 安装
 
-### Windows
+### 从安装包安装
+
+对于在windows上的python 3.6用户，在prebuilt文件夹下已经放置了预编译完成的安装包。在prebuilt文件夹下运行：
+
+```bash
+pip install QuantLib_Python-1.11-cp36-cp36m-win_amd64.whl
+```
+
+完成安装。
+
+### 从源码安装
+
+#### Windows
 
 在windows上我们使用了静态库链接。
 
@@ -57,7 +69,7 @@ git submodule update
 
 * 运行``build_windows.bat``。
 
-### Linux
+#### Linux
 
 在Linux上我们使用了动态库链接，所以需要在安装完成后，将必要的库目录加入``LD_LIBRARY_PATH``：
 

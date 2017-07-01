@@ -14,6 +14,10 @@ AC_CONFIG_FILES([
     qlext/Makefile
     qlext/instruments/Makefile
     qlext/instruments/bonds/Makefile
+    qlext/termstructures/Makefile
+    qlext/termstructures/yield/Makefile
+    qlext/time/Makefile
+    qlext/time/daycounters/Makefile
     config/Makefile
     m4/Makefile
     examples/Makefile

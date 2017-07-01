@@ -39,8 +39,8 @@ struct CommonVars {
     Date spotDate;
     Real faceAmount;
 
-    std::vector<boost::shared_ptr<RateHelper>> instruments;
-    std::vector<boost::shared_ptr<SimpleQuote>> rates;
+    std::vector<boost::shared_ptr<RateHelper> > instruments;
+    std::vector<boost::shared_ptr<SimpleQuote> > rates;
     std::vector<Period> tenors;
     boost::shared_ptr<YieldTermStructure> termStructure;
 
@@ -57,7 +57,7 @@ struct CommonVars {
         Rate rs[] = {0.02, 0.022, 0.024, 0.026, 0.028};
         Integer years[] = {1, 2, 3, 4, 5};
 
-        rates = std::vector<boost::shared_ptr<SimpleQuote>>(LENGTH(rs));
+        rates = std::vector<boost::shared_ptr<SimpleQuote> >(LENGTH(rs));
         tenors = std::vector<Period>(LENGTH(rs));
 
         for (Size i = 0; i < rates.size(); ++i) {
@@ -65,7 +65,7 @@ struct CommonVars {
             tenors[i] = years[i] * Years;
         }
 
-        instruments = std::vector<boost::shared_ptr<RateHelper>>(LENGTH(rs));
+        instruments = std::vector<boost::shared_ptr<RateHelper> >(LENGTH(rs));
         boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months));
 
         spotDate = today + shiborIndex->fixingDays() * Days;
