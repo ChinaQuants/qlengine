@@ -65,7 +65,7 @@ pip install QuantLib_Python-1.11-cp36-cp36m-win_amd64.whl
 
 在windows上我们使用了静态库链接。
 
-* 打开``build_windows.bat``文件，将环境变量``BOOST_ROOT``修改为正确的值，``BOOST_ROOT``需要指向boost库的根目录；
+* 打开``build_windows.bat``文件，将环境变量``BOOST_ROOT``以及``BOOST_LIBRARYDIR``修改为正确的值。``BOOST_ROOT``需要指向boost库的根目录，``BOOST_LIBRARY_DIR``需要指向boost编译后库文件所在目录；
 
 * 运行``build_windows.bat``。
 
