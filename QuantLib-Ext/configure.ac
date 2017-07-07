@@ -12,6 +12,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_FILES([
     Makefile
     qlext/Makefile
+    qlext/cashflows/Makefile
     qlext/instruments/Makefile
     qlext/instruments/bonds/Makefile
     qlext/termstructures/Makefile
