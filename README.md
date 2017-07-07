@@ -10,6 +10,9 @@
 
 * 更加容易使用的安装脚本。
 
+## 感谢
+除了感谢QuantLib开发团队为我们提供了如此优秀的开源金融工程库，qlenge项目要特别感谢 @pcaspers 。他与Quaternion的[Open Risk Enigne](https://github.com/OpenSourceRisk/Engine)给了我极大的启发。事实上，qlengien项目在项目结构上很大程度上参考了ORE，并且直接采用了其中部分代码，例如SubPeriodsCoupon的实现。
+
 
 ## 依赖
 
