@@ -4,10 +4,12 @@ AM_CPPFLAGS = -I${top_srcdir} -I${top_builddir}
 
 this_includedir=${includedir}/${subdir}
 this_include_HEADERS = \
-    shiborswap.hpp
+    shiborswap.hpp \
+    subperiodsswap.hpp
 
 libInstruments_la_SOURCES = \
-    shiborswap.cpp
+    shiborswap.cpp \
+    subperiodsswap.cpp
 
 libInstruments_la_LIBADD = \
     bonds/libBonds.la

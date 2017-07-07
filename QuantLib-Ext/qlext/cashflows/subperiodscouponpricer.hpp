@@ -22,8 +22,8 @@
         \ingroup cashflows
 */
 
-#ifndef quantext_sub_periods_coupon_pricer_hpp
-#define quantext_sub_periods_coupon_pricer_hpp
+#ifndef qlext_sub_periods_coupon_pricer_hpp
+#define qlext_sub_periods_coupon_pricer_hpp
 
 #include <ql/cashflows/couponpricer.hpp>
 
