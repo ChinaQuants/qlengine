@@ -2,7 +2,8 @@
 AM_CPPFLAGS = -I${top_srcdir} -I${top_builddir}
 
 SUBDIRS = \
-    CTBZeroBond
+    CTBZeroBond \
+	SubPeriodsSwap
 
 SUBDIR_CHECKS = $(SUBDIRS:%=%.check)
 

@@ -23,6 +23,7 @@ AC_CONFIG_FILES([
     m4/Makefile
     examples/Makefile
     examples/CTBZeroBond/Makefile
+    examples/SubPeriodsSwap/Makefile
     test-suite/Makefile])
 
 # Checks for programs.

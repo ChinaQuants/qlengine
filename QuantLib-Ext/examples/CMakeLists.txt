@@ -1,1 +1,2 @@
 add_subdirectory(ctbzerobond)
+add_subdirectory(subperiodsswap)
