@@ -6,6 +6,7 @@ set INCLUDE=%BOOST_ROOT%
 set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
 set BUILD_TYPE=Release
+set ADDRESS_MODEL=Win32
 
 cd QuantLib
 
@@ -15,10 +16,22 @@ if exist build (
   mkdir build
 )
 
+if %ADDRESS_MODEL%==Win64 (
+  set PLATFORM=x64
+) else (
+  set PLATFORM=Win32
+)
+
 cd build
 
-cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
-msbuild Project.sln /target:QuantLib /m /p:Configuration=%BUILD_TYPE% /p:Platform=x64
+
+if %ADDRESS_MODEL%==Win64 (
+  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
+) else (
+  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
+)
+
+msbuild Project.sln /target:QuantLib /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 cd ..\..\QuantLib-Ext
 
@@ -30,8 +43,13 @@ if exist build (
 
 cd build
 
-cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
-msbuild Project.sln /target:QuantLibExt /m /p:Configuration=%BUILD_TYPE% /p:Platform=x64
+if %ADDRESS_MODEL%==Win64 (
+  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
+) else (
+  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
+)
+
+msbuild QuantLibExt.sln /target:QuantLibExt /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 cd ..\..\QuantLib-SWIG\Python
 
