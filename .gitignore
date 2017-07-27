@@ -31,3 +31,5 @@ QuantLib-Ext/qlext/time/daycounters/.deps
 QuantLib-Ext/qlext/time/daycounters/.libs
 QuantLib-Ext/qlext/.libs
 QuantLib-Ext/qlext/termstructures/.libs
+QuantLib-Ext/examples/SubPeriodsSwap/SubPeriodsSwap
+QuantLib-Ext/examples/SubPeriodsSwap/.libs/*

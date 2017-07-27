@@ -20,7 +20,10 @@ export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
 make -j 8
 make install
 
-cd ../QuantLib-SWIG/Python
+cd bin
+./quantlibext-test-suite --log_level=message --build_info=true
+
+cd ../../QuantLib-SWIG/Python
 python setup.py wrap
 python setup.py build
 python setup.py install
