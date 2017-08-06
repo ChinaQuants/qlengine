@@ -33,3 +33,4 @@ QuantLib-Ext/qlext/.libs
 QuantLib-Ext/qlext/termstructures/.libs
 QuantLib-Ext/examples/SubPeriodsSwap/SubPeriodsSwap
 QuantLib-Ext/examples/SubPeriodsSwap/.libs/*
+QuantLib-Ext/.idea/*
