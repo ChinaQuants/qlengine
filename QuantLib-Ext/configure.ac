@@ -13,6 +13,7 @@ AC_CONFIG_FILES([
     Makefile
     qlext/Makefile
     qlext/cashflows/Makefile
+    qlext/indexes/Makefile
     qlext/instruments/Makefile
     qlext/instruments/bonds/Makefile
     qlext/termstructures/Makefile

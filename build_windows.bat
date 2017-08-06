@@ -6,7 +6,7 @@ set INCLUDE=%BOOST_ROOT%
 set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
 set BUILD_TYPE=Release
-set ADDRESS_MODEL=Win32
+set ADDRESS_MODEL=Win64
 
 cd QuantLib
 
