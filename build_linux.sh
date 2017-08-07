@@ -2,7 +2,7 @@
 
 cd QuantLib
 bash autogen.sh
-./configure prefix=$PWD
+./configure prefix=$PWD CXXFLAGS=-O2 CFLAGS=-O2
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
 export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
@@ -12,7 +12,7 @@ make install
 
 cd ../QuantLib-Ext
 bash autogen.sh
-./configure prefix=$PWD
+./configure prefix=$PWD CXXFLAGS=-O2 CFLAGS=-O2
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
 export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
