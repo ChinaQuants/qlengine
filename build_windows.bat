@@ -55,6 +55,7 @@ cd ..\..\QuantLib-SWIG\Python
 
 python setup.py wrap
 python setup.py build
+python setup.py bdist_wheel
 python setup.py install
 
 cd ..\..
