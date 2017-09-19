@@ -33,8 +33,6 @@
 
 namespace QuantLib {
 
-using Ext::SubPeriodsCoupon;
-
 //! Single currency sub periods swap
 /*! \ingroup instruments
 */
@@ -48,7 +46,7 @@ public:
                    const DayCounter& fixedDayCount, BusinessDayConvention fixedConvention, const Period& floatPayTenor,
                    const boost::shared_ptr<IborIndex>& iborIndex, const DayCounter& floatingDayCount,
                    DateGeneration::Rule rule = DateGeneration::Backward,
-                   SubPeriodsCoupon::Type type = SubPeriodsCoupon::Compounding);
+                   Ext::SubPeriodsCoupon::Type type = Ext::SubPeriodsCoupon::Compounding);
     //@}
     //! \name Inspectors
     //@{
@@ -61,7 +59,7 @@ public:
 
     const Schedule& floatSchedule() const;
     const boost::shared_ptr<IborIndex>& floatIndex() const;
-    SubPeriodsCoupon::Type type() const;
+    Ext::SubPeriodsCoupon::Type type() const;
     const Period& floatPayTenor() const;
     const Leg& floatLeg() const;
 
@@ -87,7 +85,7 @@ private:
     boost::shared_ptr<IborIndex> floatIndex_;
     DayCounter floatDayCount_;
     Period floatPayTenor_;
-    SubPeriodsCoupon::Type type_;
+    Ext::SubPeriodsCoupon::Type type_;
 };
 
 // Inline definitions
@@ -109,7 +107,7 @@ inline const Schedule& SubPeriodsSwap::floatSchedule() const { return floatSched
 
 inline const boost::shared_ptr<IborIndex>& SubPeriodsSwap::floatIndex() const { return floatIndex_; }
 
-inline SubPeriodsCoupon::Type SubPeriodsSwap::type() const { return type_; }
+inline Ext::SubPeriodsCoupon::Type SubPeriodsSwap::type() const { return type_; }
 
 inline const Period& SubPeriodsSwap::floatPayTenor() const { return floatPayTenor_; }
 
