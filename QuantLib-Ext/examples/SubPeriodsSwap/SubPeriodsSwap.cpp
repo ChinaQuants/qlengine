@@ -12,9 +12,9 @@ int main() {
     China calendar(China::IB);
     Actual365Fixed dc;
     RelinkableHandle<YieldTermStructure> termStructure;
-    termStructure.linkTo(boost::shared_ptr<YieldTermStructure>(new FlatForward(refDate, 0.05, dc)));
+    termStructure.linkTo(boost::shared_ptr<YieldTermStructure>(new FlatForward(refDate, 0.08, dc)));
 
-    boost::shared_ptr<IborIndex> index = boost::shared_ptr<IborIndex>(new Shibor(7 * Days));
+    boost::shared_ptr<IborIndex> index = boost::shared_ptr<IborIndex>(new Shibor(7 * Days, termStructure));
 
     Date effectiveDate = refDate + index->fixingDays() * Days * 10;
     effectiveDate = calendar.adjust(effectiveDate);
