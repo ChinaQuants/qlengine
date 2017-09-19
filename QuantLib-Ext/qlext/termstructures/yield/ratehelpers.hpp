@@ -25,91 +25,85 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 
 namespace QuantLib {
 
-class Shibor;
-class ShiborSwap;
+    class Shibor;
+    class ShiborSwap;
 
-class ShiborSwapRateHelper : public RelativeDateRateHelper {
+    class ShiborSwapRateHelper : public RelativeDateRateHelper {
 
-public:
-    ShiborSwapRateHelper(const Handle<Quote>& rate, const Period& swapTenor, Frequency fixedFreq,
-                         const boost::shared_ptr<Shibor>& shiborIndex, const Period& fwdStart = 0 * Days,
-                         const Handle<YieldTermStructure>& discountingCurve = Handle<YieldTermStructure>());
+    public:
+        ShiborSwapRateHelper(const Handle<Quote>& rate, const Period& swapTenor, Frequency fixedFreq,
+                             const boost::shared_ptr<Shibor>& shiborIndex, const Period& fwdStart = 0 * Days,
+                             const Handle<YieldTermStructure>& discountingCurve = Handle<YieldTermStructure>());
 
-    Real impliedQuote() const;
-    void setTermStructure(YieldTermStructure*);
+        Real impliedQuote() const;
+        void setTermStructure(YieldTermStructure*);
 
-    boost::shared_ptr<ShiborSwap> swap() const;
-    const Period& forwardStart() const;
+        boost::shared_ptr<ShiborSwap> swap() const;
+        const Period& forwardStart() const;
 
-    void accept(AcyclicVisitor&);
+        void accept(AcyclicVisitor&);
 
-private:
-    void initializeDates();
-    Natural settlementDays_;
-    RelinkableHandle<YieldTermStructure> termStructureHandle_;
-    Period tenor_;
-    Frequency fixedFrequency_;
-    Period fwdStart_;
-    boost::shared_ptr<Shibor> shiborIndex_;
-    boost::shared_ptr<ShiborSwap> swap_;
-    Handle<YieldTermStructure> discountHandle_;
-    RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
-};
+    private:
+        void initializeDates();
+        Natural settlementDays_;
+        RelinkableHandle<YieldTermStructure> termStructureHandle_;
+        Period tenor_;
+        Frequency fixedFrequency_;
+        Period fwdStart_;
+        boost::shared_ptr<Shibor> shiborIndex_;
+        boost::shared_ptr<ShiborSwap> swap_;
+        Handle<YieldTermStructure> discountHandle_;
+        RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
+    };
 
-inline boost::shared_ptr<ShiborSwap> ShiborSwapRateHelper::swap() const { return swap_; }
+    inline boost::shared_ptr<ShiborSwap> ShiborSwapRateHelper::swap() const { return swap_; }
 
-inline const Period& ShiborSwapRateHelper::forwardStart() const { return fwdStart_; }
+    inline const Period& ShiborSwapRateHelper::forwardStart() const { return fwdStart_; }
 
-class SubPeriodsSwap;
+    class SubPeriodsSwap;
 
-class SubPeriodsSwapRateHelper : public RelativeDateRateHelper {
-public:
-    SubPeriodsSwapRateHelper(const Handle<Quote>& rate,
-        const Period& swapTenor,
-        Frequency fixedFreq,
-        const Calendar& fixedCalendar,
-        const DayCounter& fixedDayCount,
-        BusinessDayConvention fixedConvention,
-        const Period& floatPayTenor,
-        const boost::shared_ptr<IborIndex>& iborIndex,
-        const DayCounter& floatingDayCount,
-        DateGeneration::Rule rule = DateGeneration::Backward,
-        Ext::SubPeriodsCoupon::Type type = Ext::SubPeriodsCoupon::Compounding,
-        const Period& fwdStart = 0 * Days,
-        const Handle<YieldTermStructure>& discountingCurve
-        = Handle<YieldTermStructure>());
+    class SubPeriodsSwapRateHelper : public RelativeDateRateHelper {
+    public:
+        SubPeriodsSwapRateHelper(const Handle<Quote>& rate, const Period& swapTenor, Frequency fixedFreq,
+                                 const Calendar& fixedCalendar, const DayCounter& fixedDayCount,
+                                 BusinessDayConvention fixedConvention, const Period& floatPayTenor,
+                                 const boost::shared_ptr<IborIndex>& iborIndex, const DayCounter& floatingDayCount,
+                                 DateGeneration::Rule rule = DateGeneration::Backward,
+                                 Ext::SubPeriodsCoupon::Type type = Ext::SubPeriodsCoupon::Compounding,
+                                 const Period& fwdStart = 0 * Days,
+                                 const Handle<YieldTermStructure>& discountingCurve = Handle<YieldTermStructure>());
 
-    Real impliedQuote() const;
-    void setTermStructure(YieldTermStructure*);
+        Real impliedQuote() const;
+        void setTermStructure(YieldTermStructure*);
 
-    boost::shared_ptr<SubPeriodsSwap> swap() const;
-    const Period& forwardStart() const;
+        boost::shared_ptr<SubPeriodsSwap> swap() const;
+        const Period& forwardStart() const;
 
-    void accept(AcyclicVisitor&);
+        void accept(AcyclicVisitor&);
 
-private:
-    void initializeDates();
-    Natural settlementDays_;
-    RelinkableHandle<YieldTermStructure> termStructureHandle_;
-    Period tenor_;
-    Frequency fixedFrequency_;
-    Calendar fixedCalendar_;
-    DayCounter fixedDayCount_;
-    BusinessDayConvention fixedConvention_;
-    Period floatPayTenor_;
-    DayCounter floatingDayCount_;
-    DateGeneration::Rule rule_;
-    Ext::SubPeriodsCoupon::Type type_;
-    Period fwdStart_;
-    boost::shared_ptr<IborIndex> iborIndex_;
-    boost::shared_ptr<SubPeriodsSwap> swap_;
-    Handle<YieldTermStructure> discountHandle_;
-    RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
-};
+    private:
+        void initializeDates();
+        Natural settlementDays_;
+        RelinkableHandle<YieldTermStructure> termStructureHandle_;
+        Period tenor_;
+        Frequency fixedFrequency_;
+        Calendar fixedCalendar_;
+        DayCounter fixedDayCount_;
+        BusinessDayConvention fixedConvention_;
+        Period floatPayTenor_;
+        DayCounter floatingDayCount_;
+        DateGeneration::Rule rule_;
+        Ext::SubPeriodsCoupon::Type type_;
+        Period fwdStart_;
+        boost::shared_ptr<IborIndex> iborIndex_;
+        boost::shared_ptr<SubPeriodsSwap> swap_;
+        Handle<YieldTermStructure> discountHandle_;
+        RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
+    };
 
-inline boost::shared_ptr<SubPeriodsSwap> SubPeriodsSwapRateHelper::swap() const { return swap_; }
+    inline boost::shared_ptr<SubPeriodsSwap> SubPeriodsSwapRateHelper::swap() const { return swap_; }
 
-inline const Period& SubPeriodsSwapRateHelper::forwardStart() const { return fwdStart_; }
+    inline const Period& SubPeriodsSwapRateHelper::forwardStart() const { return fwdStart_; }
 
 } // namespace QuantLib
 

@@ -1,7 +1,7 @@
+#include <iostream>
+#include <ql/quantlib.hpp>
 #include <qlext/instruments/subperiodsswap.hpp>
 #include <qlext/termstructures/yield/ratehelpers.hpp>
-#include <ql/quantlib.hpp>
-#include <iostream>
 
 using namespace std;
 using namespace QuantLib;
@@ -19,13 +19,11 @@ int main() {
     Date effectiveDate = refDate + index->fixingDays() * Days * 10;
     effectiveDate = calendar.adjust(effectiveDate);
 
-    SubPeriodsSwap swap(effectiveDate, 1., 1 * Years, true,
-        3 * Months, 0.05, calendar, dc, ModifiedFollowing,
-        3 * Months, index, dc);
+    SubPeriodsSwap swap(effectiveDate, 1., 1 * Years, true, 3 * Months, 0.05, calendar, dc, ModifiedFollowing,
+                        3 * Months, index, dc);
 
     swap.setPricingEngine(boost::shared_ptr<PricingEngine>(new DiscountingSwapEngine(termStructure)));
     cout << swap.NPV() << endl;
-    
 
     return 0;
 }

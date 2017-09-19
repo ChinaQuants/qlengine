@@ -22,7 +22,7 @@ ExperimentalAutoDetectBinPacking: false
 IndentCaseLabels: false
 MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: true
-NamespaceIndentation: None
+NamespaceIndentation: All
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
 PenaltyBreakBeforeFirstCallParameter: 19
