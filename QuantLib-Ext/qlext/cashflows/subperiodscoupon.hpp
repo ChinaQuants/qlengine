@@ -69,6 +69,8 @@ class SubPeriodsCouponPricer;
             //! Need to be able to change spread to solve for fair spread
             Spread spread() const { return spread_; }
             Spread& spread() { return spread_; }
+
+            const Date& latestRelevantDate() const { return latestRalevantDate_; }
             //@}
             //! \name FloatingRateCoupon interface
             //@{
@@ -83,6 +85,7 @@ class SubPeriodsCouponPricer;
             Type type_;
             bool includeSpread_;
             std::vector<Date> valueDates_, fixingDates_;
+            Date latestRalevantDate_;
             mutable std::vector<Rate> fixings_;
             Size numPeriods_;
             std::vector<Time> accrualFractions_;

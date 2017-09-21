@@ -65,6 +65,8 @@ namespace QuantLib {
             for (Size i = 0; i < numPeriods_; ++i) {
                 accrualFractions_[i] = dayCounter.yearFraction(valueDates_[i], valueDates_[i + 1]);
             }
+
+            latestRalevantDate_ = index->maturityDate(valueDates_[valueDates_.size() - 1]);
         }
 
         const std::vector<Rate>& SubPeriodsCoupon::indexFixings() const {

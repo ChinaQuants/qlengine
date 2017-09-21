@@ -160,10 +160,9 @@ namespace QuantLib {
         maturityDate_ = swap_->maturityDate();
         Leg floatLeg = swap_->floatLeg();
 
-        boost::shared_ptr<Ext::SubPeriodsCoupon> tmp =
+        boost::shared_ptr<Ext::SubPeriodsCoupon> lastCoupon =
             boost::dynamic_pointer_cast<Ext::SubPeriodsCoupon>(floatLeg[floatLeg.size() - 1]);
-        std::vector<Date> valueDates = tmp->valueDates();
-        latestRelevantDate_ = std::max(latestDate_, valueDates[valueDates.size() - 1]);
+        latestRelevantDate_ = std::max(latestDate_, lastCoupon->latestRelevantDate());
         latestDate_ = maturityDate_;
     }
 

@@ -25,6 +25,7 @@
 #include <ql/time/calendars/china.hpp>
 #include <ql/utilities/dataformatters.hpp>
 #include <qlext/instruments/shiborswap.hpp>
+#include <qlext/instruments/subperiodsswap.hpp>
 #include <qlext/termstructures/yield/ratehelpers.hpp>
 
 using namespace QuantLib;
@@ -37,9 +38,10 @@ struct CommonVars {
     Calendar calendar;
     Date today;
     Date spotDate;
-    Real faceAmount;
+    DayCounter dc;
 
-    std::vector<boost::shared_ptr<RateHelper> > instruments;
+    std::vector<boost::shared_ptr<RateHelper> > shiborInstruments;
+    std::vector<boost::shared_ptr<RateHelper> > subPeriodsInstruments;
     std::vector<boost::shared_ptr<SimpleQuote> > rates;
     std::vector<Period> tenors;
     boost::shared_ptr<YieldTermStructure> termStructure;
@@ -65,16 +67,28 @@ struct CommonVars {
             tenors[i] = years[i] * Years;
         }
 
-        instruments = std::vector<boost::shared_ptr<RateHelper> >(LENGTH(rs));
+        shiborInstruments = std::vector<boost::shared_ptr<RateHelper> >(LENGTH(rs));
         boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months));
 
         spotDate = today + shiborIndex->fixingDays() * Days;
         spotDate = calendar.adjust(spotDate);
 
+        dc = Actual365Fixed();
+
         for (Size i = 0; i < rates.size(); ++i) {
             Handle<Quote> r(rates[i]);
-            instruments[i] =
+            shiborInstruments[i] =
                 boost::shared_ptr<ShiborSwapRateHelper>(new ShiborSwapRateHelper(r, tenors[i], Quarterly, shiborIndex));
+        }
+
+        boost::shared_ptr<IborIndex> index(new Shibor(7 * Days));
+        subPeriodsInstruments = std::vector<boost::shared_ptr<RateHelper> >(LENGTH(rs));
+
+        for (Size i = 0; i < rates.size(); ++i) {
+            Handle<Quote> r(rates[i]);
+            subPeriodsInstruments[i] =
+                boost::shared_ptr<SubPeriodsSwapRateHelper>(new SubPeriodsSwapRateHelper(r, tenors[i], Quarterly, calendar, dc, ModifiedFollowing,
+                    3 * Months, index, dc));
         }
     }
 };
@@ -91,14 +105,14 @@ void CalibratedCurveTest::testCalibratedShiborSwapCurve() {
 
     vars.termStructure =
         boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(
-            vars.today, vars.instruments, Actual365Fixed(), Linear()));
+            vars.today, vars.shiborInstruments, Actual365Fixed(), Linear()));
 
     RelinkableHandle<YieldTermStructure> curveHandle;
     curveHandle.linkTo(vars.termStructure);
 
     boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months, curveHandle));
 
-    for (Size i = 0; i < vars.instruments.size(); ++i) {
+    for (Size i = 0; i < vars.shiborInstruments.size(); ++i) {
         ShiborSwap swap(ShiborSwap::Payer, 1., vars.spotDate, vars.tenors[i], 3 * Months, 0., shiborIndex);
 
         Handle<YieldTermStructure> disc = shiborIndex->forwardingTermStructure();
@@ -119,8 +133,47 @@ void CalibratedCurveTest::testCalibratedShiborSwapCurve() {
     }
 }
 
+void CalibratedCurveTest::testCalibratedSubPeriodsSwapCurve() {
+    BOOST_TEST_MESSAGE("Testing sub periods swap yield curve construction...");
+
+    CommonVars vars;
+    Real tolerance = 1.e-9;
+
+    vars.termStructure =
+        boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(
+            vars.today, vars.subPeriodsInstruments, Actual365Fixed(), Linear()));
+
+    RelinkableHandle<YieldTermStructure> curveHandle;
+    curveHandle.linkTo(vars.termStructure);
+
+    boost::shared_ptr<IborIndex> index = boost::shared_ptr<IborIndex>(new Shibor(7 * Days, curveHandle));
+
+    for (Size i = 0; i < vars.subPeriodsInstruments.size(); ++i) {
+        SubPeriodsSwap swap(vars.spotDate, 1., vars.tenors[i], true, 3 * Months, 0., vars.calendar, vars.dc, ModifiedFollowing,
+            3 * Months, index, vars.dc);
+
+        Handle<YieldTermStructure> disc = index->forwardingTermStructure();
+        bool includeSettlementDateFlows = false;
+        boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(disc, includeSettlementDateFlows));
+        swap.setPricingEngine(engine);
+
+        Rate expectedRate = vars.rates[i]->value();
+        Rate estimatedRate = swap.fairRate();
+        Spread error = std::fabs(expectedRate - estimatedRate);
+
+        if (error > tolerance) {
+            BOOST_ERROR(vars.tenors[i] << " year(s) swap:\n"
+                << std::setprecision(8) << "\n estimated rate: " << io::rate(estimatedRate)
+                << "\n expected rate:  " << io::rate(expectedRate) << "\n error:          "
+                << io::rate(error) << "\n tolerance:      " << io::rate(tolerance));
+        }
+    }
+}
+
+
 test_suite* CalibratedCurveTest::suite() {
     test_suite* suite = BOOST_TEST_SUITE("Calibrated curve tests");
     suite->add(QUANTLIB_TEST_CASE(&CalibratedCurveTest::testCalibratedShiborSwapCurve));
+    suite->add(QUANTLIB_TEST_CASE(&CalibratedCurveTest::testCalibratedSubPeriodsSwapCurve));
     return suite;
 }

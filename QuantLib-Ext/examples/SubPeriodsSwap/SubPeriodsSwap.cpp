@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ql/quantlib.hpp>
 #include <qlext/instruments/subperiodsswap.hpp>
-#include <qlext/termstructures/yield/ratehelpers.hpp>
 
 using namespace std;
 using namespace QuantLib;
