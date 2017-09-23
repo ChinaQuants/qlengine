@@ -1,2 +1,2 @@
-add_subdirectory(ctbzerobond)
-add_subdirectory(subperiodsswap)
+add_subdirectory(CTBZeroBond)
+add_subdirectory(SubPeriodsSwap)

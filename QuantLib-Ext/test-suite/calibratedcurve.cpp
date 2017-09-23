@@ -113,15 +113,15 @@ void CalibratedCurveTest::testCalibratedShiborSwapCurve() {
     boost::shared_ptr<Shibor> shiborIndex(new Shibor(3 * Months, curveHandle));
 
     for (Size i = 0; i < vars.shiborInstruments.size(); ++i) {
-        ShiborSwap swap(ShiborSwap::Payer, 1., vars.spotDate, vars.tenors[i], 3 * Months, 0., shiborIndex);
+        boost::shared_ptr<ShiborSwap> swap(new ShiborSwap(ShiborSwap::Payer, 1., vars.spotDate, vars.tenors[i], 3 * Months, 0., shiborIndex));
 
         Handle<YieldTermStructure> disc = shiborIndex->forwardingTermStructure();
         bool includeSettlementDateFlows = false;
         boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(disc, includeSettlementDateFlows));
-        swap.setPricingEngine(engine);
+        swap->setPricingEngine(engine);
 
         Rate expectedRate = vars.rates[i]->value();
-        Rate estimatedRate = swap.fairRate();
+        Rate estimatedRate = swap->fairRate();
         Spread error = std::fabs(expectedRate - estimatedRate);
 
         if (error > tolerance) {
@@ -149,16 +149,16 @@ void CalibratedCurveTest::testCalibratedSubPeriodsSwapCurve() {
     boost::shared_ptr<IborIndex> index = boost::shared_ptr<IborIndex>(new Shibor(7 * Days, curveHandle));
 
     for (Size i = 0; i < vars.subPeriodsInstruments.size(); ++i) {
-        SubPeriodsSwap swap(vars.spotDate, 1., vars.tenors[i], true, 3 * Months, 0., vars.calendar, vars.dc, ModifiedFollowing,
-            3 * Months, index, vars.dc);
+        boost::shared_ptr<SubPeriodsSwap> swap(new SubPeriodsSwap(vars.spotDate, 1., vars.tenors[i], true, 3 * Months, 0., vars.calendar, vars.dc, ModifiedFollowing,
+            3 * Months, index, vars.dc));
 
         Handle<YieldTermStructure> disc = index->forwardingTermStructure();
         bool includeSettlementDateFlows = false;
         boost::shared_ptr<PricingEngine> engine(new DiscountingSwapEngine(disc, includeSettlementDateFlows));
-        swap.setPricingEngine(engine);
+        swap->setPricingEngine(engine);
 
         Rate expectedRate = vars.rates[i]->value();
-        Rate estimatedRate = swap.fairRate();
+        Rate estimatedRate = swap->fairRate();
         Spread error = std::fabs(expectedRate - estimatedRate);
 
         if (error > tolerance) {
