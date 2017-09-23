@@ -146,9 +146,9 @@ namespace QuantLib {
         else
             startDate = floatCalendar.adjust(startDate, Following);
 
-        swap_ = boost::make_shared<SubPeriodsSwap>(startDate, 1., tenor_, true, Period(fixedFrequency_), 0.,
+        swap_ = boost::shared_ptr<SubPeriodsSwap>(new SubPeriodsSwap(startDate, 1., tenor_, true, Period(fixedFrequency_), 0.,
                                                    fixedCalendar_, fixedDayCount_, fixedConvention_, floatPayTenor_,
-                                                   iborIndex_, floatingDayCount_, rule_, type_);
+                                                   iborIndex_, floatingDayCount_, rule_, type_));
 
         bool includeSettlementDateFlows = false;
         boost::shared_ptr<PricingEngine> engine(

@@ -1,7 +1,6 @@
 
 QL_TESTS = \
 	quantlibexttestsuite.cpp \
-	daycounters.hpp daycounters.cpp \
 	speedlevel.hpp \
 	bonds.hpp bonds.cpp \
 	calibratedcurve.hpp calibratedcurve.cpp \

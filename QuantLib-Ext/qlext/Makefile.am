@@ -1,4 +1,4 @@
-SUBDIRS = cashflows indexes instruments termstructures time
+SUBDIRS = cashflows indexes instruments termstructures
 
 AM_CPPFLAGS = -I${top_srcdir} -I${top_builddir}
 
@@ -19,5 +19,4 @@ libQuantLibExt_la_LIBADD = \
     cashflows/libCashflows.la \
 	indexes/libIndexes.la \
     instruments/libInstruments.la \
-	termstructures/libTermStructures.la \
-	time/libTime.la
+	termstructures/libTermStructures.la
