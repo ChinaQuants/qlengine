@@ -54,7 +54,6 @@
 
 #include "bonds.hpp"
 #include "calibratedcurve.hpp"
-#include "daycounters.hpp"
 #include "swaps.hpp"
 
 #include <iomanip>
@@ -206,7 +205,6 @@ test_suite* init_unit_test_suite(int, char* []) {
 
     test->add(BondTest::suite());
     test->add(CalibratedCurveTest::suite());
-    test->add(DayCounterTest::suite());
     test->add(SwapTest::suite());
 
     test->add(QUANTLIB_TEST_CASE(stopTimer));
