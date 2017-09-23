@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ql/quantlib.hpp>
+#include <qlext/indexes/repo.hpp>
 #include <qlext/instruments/subperiodsswap.hpp>
 #include <qlext/termstructures/yield/ratehelpers.hpp>
 
@@ -9,44 +10,41 @@ using namespace QuantLib;
 int main() {
 
     Real tolerance = 1.e-9;
-    China calendar(China::IB);
-    Date today = calendar.adjust(Date::todaysDate());
+    TARGET calendar;
+    Date today(18, Sep ,2017);
     Settings::instance().evaluationDate() = today;
-    boost::shared_ptr<IborIndex> index(new Shibor(7 * Days));
+    boost::shared_ptr<IborIndex> index(new Repo(7 * Days));
 
     Actual365Fixed dc;
 
     Settings::instance().evaluationDate() = today;
+    std::vector<boost::shared_ptr<RateHelper> > subPeriodsInstruments = std::vector<boost::shared_ptr<RateHelper> >();
 
-    Size length = 7;
-    Rate rs[] = {0.03445, 0.03525, 0.0365, 0.0366, 0.037725, 0.03835, 0.03835};
-    Integer years[] = {1, 2, 3, 4, 5, 7, 10};
+    // Instruments less than one year
+    Size length = 10;
+    Rate rs[] = {0.034625, 0.0342, 0.0343,  0.03445, 0.03525, 0.0365, 0.0366, 0.037725, 0.03835, 0.03835};
+    Period tenors[] = {3*Months, 6*Months, 9*Months, 1*Years, 2*Years, 3*Years, 4*Years, 5*Years, 7*Years, 10*Years};
 
     std::vector<boost::shared_ptr<SimpleQuote> > rates(length);
-    std::vector<Period> tenors(length);
 
-    for (Size i = 0; i < rates.size(); ++i) {
+    for (Size i = 0; i < rates.size(); ++i)
         rates[i] = boost::shared_ptr<SimpleQuote>(new SimpleQuote(rs[i]));
-        tenors[i] = years[i] * Years;
-    }
-
-    std::vector<boost::shared_ptr<RateHelper> > subPeriodsInstruments = std::vector<boost::shared_ptr<RateHelper> >(length);
 
     for (Size i = 0; i < rates.size(); ++i) {
         Handle<Quote> r(rates[i]);
-        subPeriodsInstruments[i] =
-                boost::shared_ptr<SubPeriodsSwapRateHelper>(new SubPeriodsSwapRateHelper(r, tenors[i], Quarterly, calendar, dc, ModifiedFollowing,
-                                                                                         3 * Months, index, dc));
+        subPeriodsInstruments.push_back(
+            boost::shared_ptr<SubPeriodsSwapRateHelper>(new SubPeriodsSwapRateHelper(r, tenors[i], Quarterly, calendar, dc, ModifiedFollowing,
+                3 * Months, index, dc)));
     }
 
     boost::shared_ptr<YieldTermStructure> termStructure =
             boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(
-                    today, subPeriodsInstruments, Actual365Fixed(), Linear()));
+                    today, subPeriodsInstruments, dc, Linear()));
 
     RelinkableHandle<YieldTermStructure> curveHandle;
     curveHandle.linkTo(termStructure);
 
-    boost::shared_ptr<IborIndex> forwardIndex = boost::shared_ptr<IborIndex>(new Shibor(7 * Days, curveHandle));
+    boost::shared_ptr<IborIndex> forwardIndex = boost::shared_ptr<IborIndex>(new Repo(7 * Days, curveHandle));
 
     Date spotDate = today + forwardIndex->fixingDays() * Days;
     spotDate = calendar.adjust(spotDate);
@@ -67,7 +65,9 @@ int main() {
     }
 
     for (Size i = 0; i < length; ++i) {
-        cout << "Year " << years[i] << " : " << termStructure->zeroRate(years[i], Continuous) << endl;
+        Date refDate = today + tenors[i];
+        refDate = calendar.adjust(refDate);
+        cout <<io::iso_date(refDate) << " : " << termStructure->zeroRate(refDate, dc, Continuous).rate() << ", " << termStructure->discount(refDate) << endl;
     }
 
     return 0;
