@@ -45,7 +45,7 @@ namespace QuantLib {
                const Handle<YieldTermStructure>& h)
     : IborIndex("Repo", tenor, (tenor == 1*Days? 0 : 1), CNYCurrency(),
                 China(China::IB), repoConvention(tenor), false,
-                Actual360(), h) {}
+                Actual365Fixed(), h) {}
     boost::shared_ptr<IborIndex> Repo::clone(
         const Handle<YieldTermStructure>& h) const {
         return boost::shared_ptr<IborIndex>(new Repo(tenor(), h));
