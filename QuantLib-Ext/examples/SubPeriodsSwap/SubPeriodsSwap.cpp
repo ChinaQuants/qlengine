@@ -64,10 +64,13 @@ int main() {
 
     }
 
+    Date pillars[] = {Date(17, Dec, 2017), Date(19, Mar, 2018), Date(19, Jun, 2018), Date(18, Sep, 2018), Date(18, Sep, 2019), Date(18, Sep, 2020),
+    Date(20, Sep, 2021), Date(19, Sep, 2022), Date(18, Sep, 2024), Date(20, Sep, 2027)};
+
     for (Size i = 0; i < length; ++i) {
-        Date refDate = today + tenors[i];
+        Date refDate = pillars[i];
         refDate = calendar.adjust(refDate);
-        cout <<io::iso_date(refDate) << " : " << termStructure->zeroRate(refDate, dc, Continuous).rate() << ", " << termStructure->discount(refDate) << endl;
+        cout <<io::iso_date(refDate) << " : " << termStructure->zeroRate(refDate, dc, Compounded, Quarterly).rate() << ", " << termStructure->discount(refDate) << endl;
     }
 
     return 0;
