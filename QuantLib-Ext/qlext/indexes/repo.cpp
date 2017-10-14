@@ -19,8 +19,8 @@
 
 #include <qlext/indexes/repo.hpp>
 #include <ql/currencies/asia.hpp>
+#include <ql/time/calendars/nullcalendar.hpp>
 #include <ql/time/calendars/china.hpp>
-#include <ql/time/daycounters/actual360.hpp>
 
 namespace QuantLib {
 
@@ -44,7 +44,7 @@ namespace QuantLib {
     Repo::Repo(const Period& tenor,
                const Handle<YieldTermStructure>& h)
     : IborIndex("Repo", tenor, (tenor == 1*Days? 0 : 1), CNYCurrency(),
-                China(China::IB), repoConvention(tenor), false,
+                NullCalendar(), repoConvention(tenor), false,
                 Actual365Fixed(), h) {}
     boost::shared_ptr<IborIndex> Repo::clone(
         const Handle<YieldTermStructure>& h) const {

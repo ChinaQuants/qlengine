@@ -9,20 +9,19 @@ using namespace QuantLib;
 
 int main() {
 
-    Real tolerance = 1.e-9;
-    TARGET calendar;
-    Date today(18, Sep ,2017);
+    const Real tolerance = 1.e-12;
+    const NullCalendar calendar;
+    const Date today(11, Oct, 2017);
     Settings::instance().evaluationDate() = today;
-    boost::shared_ptr<IborIndex> index(new Repo(7 * Days));
+    boost::shared_ptr<IborIndex> index(new Repo(1 * Weeks));
+    const Date settlementDate = today + 1 * Days;
 
-    Actual365Fixed dc;
-
-    Settings::instance().evaluationDate() = today;
+    const Actual365Fixed dc;
     std::vector<boost::shared_ptr<RateHelper> > subPeriodsInstruments = std::vector<boost::shared_ptr<RateHelper> >();
 
-    // Instruments less than one year
+    // Instruments loner than 3 months
     Size length = 10;
-    Rate rs[] = {0.034625, 0.0342, 0.0343,  0.03445, 0.03525, 0.0365, 0.0366, 0.037725, 0.03835, 0.03835};
+    Rate rs[] = {0.034625, 0.034800, 0.034940, 0.035100, 0.035900, 0.036730, 0.037430, 0.0381875, 0.039240, 0.039450};
     Period tenors[] = {3*Months, 6*Months, 9*Months, 1*Years, 2*Years, 3*Years, 4*Years, 5*Years, 7*Years, 10*Years};
 
     std::vector<boost::shared_ptr<SimpleQuote> > rates(length);
@@ -44,13 +43,13 @@ int main() {
     RelinkableHandle<YieldTermStructure> curveHandle;
     curveHandle.linkTo(termStructure);
 
-    boost::shared_ptr<IborIndex> forwardIndex = boost::shared_ptr<IborIndex>(new Repo(7 * Days, curveHandle));
+    boost::shared_ptr<IborIndex> forwardIndex = boost::shared_ptr<IborIndex>(new Repo(1 * Weeks, curveHandle));
 
     Date spotDate = today + forwardIndex->fixingDays() * Days;
     spotDate = calendar.adjust(spotDate);
 
     for (Size i = 0; i < subPeriodsInstruments.size(); ++i) {
-        boost::shared_ptr<SubPeriodsSwap> swap(new SubPeriodsSwap(spotDate, 1., tenors[i], true, 3 * Months, 0., calendar, dc, ModifiedFollowing,
+        boost::shared_ptr<SubPeriodsSwap> swap(new SubPeriodsSwap(spotDate, 100., tenors[i], true, 3 * Months, 0., calendar, dc, ModifiedFollowing,
                                                                   3 * Months, forwardIndex, dc));
 
         Handle<YieldTermStructure> disc = forwardIndex->forwardingTermStructure();
@@ -64,13 +63,17 @@ int main() {
 
     }
 
-    Date pillars[] = {Date(17, Dec, 2017), Date(19, Mar, 2018), Date(19, Jun, 2018), Date(18, Sep, 2018), Date(18, Sep, 2019), Date(18, Sep, 2020),
-    Date(20, Sep, 2021), Date(19, Sep, 2022), Date(18, Sep, 2024), Date(20, Sep, 2027)};
+    Date pillars[] = {Date(12, Jan, 2018), Date(12, Apr, 2018), Date(12, July, 2018), Date(12, Oct, 2018), Date(14, Oct, 2019), Date(12, Oct, 2020),
+    Date(12, Oct, 2021), Date(12, Oct, 2022), Date(14, Oct, 2024), Date(12, Oct, 2027)};
 
+    // BBG quote the discout factor from settlement date not today
     for (Size i = 0; i < length; ++i) {
         Date refDate = pillars[i];
-        refDate = calendar.adjust(refDate);
-        cout <<io::iso_date(refDate) << " : " << termStructure->zeroRate(refDate, dc, Compounded, Quarterly).rate() << ", " << termStructure->discount(refDate) << endl;
+
+        Real discountFactor = termStructure->discount(refDate) / termStructure->discount(settlementDate);
+        Real zeroRate = InterestRate::impliedRate(1. / discountFactor, dc, Compounded, Quarterly, settlementDate, refDate);
+
+        cout <<io::iso_date(refDate) << " : " << zeroRate << ", " << discountFactor << endl;
     }
 
     return 0;
