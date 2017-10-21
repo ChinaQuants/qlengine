@@ -46,7 +46,7 @@ namespace QuantLib {
                             .withCalendar(index->fixingCalendar())
                             .withConvention(convention)
                             .withTerminationDateConvention(convention)
-                            .backwards();
+                            .forwards();
             valueDates_ = sch.dates();
             QL_ENSURE(valueDates_.size() >= 2, "Degenerate schedule.");
 

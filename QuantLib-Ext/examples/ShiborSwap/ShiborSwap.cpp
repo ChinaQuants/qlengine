@@ -8,10 +8,13 @@ using namespace std;
 using namespace QuantLib;
 
 int main() {
+
+    const Real tolerance = 1.e-12;
     const NullCalendar calendar;
     const Date today(11, Oct, 2017);
     Settings::instance().evaluationDate() = today;
-    boost::shared_ptr<IborIndex> index(new Repo(1 * Weeks));
+    boost::shared_ptr<Shibor> index(new Shibor(3 * Months));
+    const Date settlementDate = today + 1 * Days;
 
     const Actual365Fixed dc;
     std::vector<boost::shared_ptr<RateHelper> > subPeriodsInstruments = std::vector<boost::shared_ptr<RateHelper> >();
@@ -36,8 +39,7 @@ int main() {
     for (Size i = 0; i < rates.size(); ++i) {
         Handle<Quote> r(rates[i]);
         subPeriodsInstruments.push_back(
-            boost::shared_ptr<SubPeriodsSwapRateHelper>(new SubPeriodsSwapRateHelper(r, tenors[i], Quarterly, calendar, dc, ModifiedFollowing,
-                3 * Months, index, dc)));
+            boost::shared_ptr<ShiborSwapRateHelper>(new ShiborSwapRateHelper(r, tenors[i], Quarterly, index)));
     }
 
     boost::shared_ptr<YieldTermStructure> termStructure =
@@ -47,7 +49,9 @@ int main() {
     RelinkableHandle<YieldTermStructure> curveHandle;
     curveHandle.linkTo(termStructure);
 
-    boost::shared_ptr<IborIndex> forwardIndex = boost::shared_ptr<IborIndex>(new Repo(1 * Weeks, curveHandle));
+    boost::shared_ptr<Shibor> forwardIndex = boost::shared_ptr<Shibor>(new Shibor(3 * Months));
+
+    Date spotDate = today + forwardIndex->fixingDays() * Days;
 
     Date pillars[] = {Date(13, Oct, 2017), Date(19, Oct, 2017), Date(12, Jan, 2018), Date(12, Apr, 2018), Date(12, July, 2018), Date(12, Oct, 2018), Date(14, Oct, 2019), Date(12, Oct, 2020),
     Date(12, Oct, 2021), Date(12, Oct, 2022), Date(14, Oct, 2024), Date(12, Oct, 2027)};
@@ -59,7 +63,7 @@ int main() {
         Real discountFactor = termStructure->discount(refDate);
         Real zeroRate = 0;
 
-        if(i < 2)
+        if (i < 2)
             zeroRate = termStructure->zeroRate(refDate, dc, Simple, Annual);
         else
             zeroRate = termStructure->zeroRate(refDate, dc, Compounded, Quarterly);
