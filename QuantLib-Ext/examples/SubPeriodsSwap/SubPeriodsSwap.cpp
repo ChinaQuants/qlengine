@@ -41,7 +41,7 @@ int main() {
     }
 
     boost::shared_ptr<YieldTermStructure> termStructure =
-            boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<Discount, Linear, IterativeBootstrap>(
+            boost::shared_ptr<YieldTermStructure>(new PiecewiseYieldCurve<ZeroYield, Linear, IterativeBootstrap>(
                     1, calendar, subPeriodsInstruments, dc, Linear()));
 
     RelinkableHandle<YieldTermStructure> curveHandle;
