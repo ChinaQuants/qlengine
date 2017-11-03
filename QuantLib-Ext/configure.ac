@@ -23,6 +23,7 @@ AC_CONFIG_FILES([
     examples/Makefile
     examples/CTBZeroBond/Makefile
     examples/SubPeriodsSwap/Makefile
+    examples/ShiborSwap/Makefile
     test-suite/Makefile])
 
 # Checks for programs.
