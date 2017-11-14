@@ -64,7 +64,6 @@ cd ..\..\QuantLib-SWIG\Python
 python setup.py wrap
 python setup.py build
 python setup.py bdist_wheel
-python setup.py install
 
 if %errorlevel% neq 0 exit /b 1
 
