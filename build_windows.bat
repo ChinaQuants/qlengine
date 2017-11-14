@@ -31,7 +31,11 @@ if %ADDRESS_MODEL%==Win64 (
   cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 )
 
+if %errorlevel% neq 0 exit /b 1
+
 msbuild Project.sln /target:QuantLib_Static /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+
+if %errorlevel% neq 0 exit /b 1
 
 cd ..\..\QuantLib-Ext
 
@@ -49,7 +53,11 @@ if %ADDRESS_MODEL%==Win64 (
   cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 )
 
+if %errorlevel% neq 0 exit /b 1
+
 msbuild QuantLibExt.sln /target:QuantLibExt /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+
+if %errorlevel% neq 0 exit /b 1
 
 cd ..\..\QuantLib-SWIG\Python
 
@@ -57,6 +65,8 @@ python setup.py wrap
 python setup.py build
 python setup.py bdist_wheel
 python setup.py install
+
+if %errorlevel% neq 0 exit /b 1
 
 cd ..\..
 
