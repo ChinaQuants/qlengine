@@ -24,6 +24,7 @@ AC_CONFIG_FILES([
     examples/CTBZeroBond/Makefile
     examples/SubPeriodsSwap/Makefile
     examples/ShiborSwap/Makefile
+    examples/AutoCallable/Makefile
     test-suite/Makefile])
 
 # Checks for programs.
