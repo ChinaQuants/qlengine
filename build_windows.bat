@@ -2,10 +2,10 @@
 
 set BOOST_ROOT=D:/dev/boost_1_64_0
 set BOOST_LIBRARYDIR=D:/dev/boost_1_64_0/lib/stage
-set INCLUDE=%BOOST_ROOT%
+set INCLUDE=%BOOST_ROOT%;D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include
 set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
-set BUILD_TYPE=Debug
+set BUILD_TYPE=Release
 set ADDRESS_MODEL=Win64
 
 cd QuantLib
@@ -33,7 +33,7 @@ if %ADDRESS_MODEL%==Win64 (
 
 if %errorlevel% neq 0 exit /b 1
 
-msbuild Project.sln /target:QuantLib_Static /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+msbuild Project.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -55,7 +55,13 @@ if %ADDRESS_MODEL%==Win64 (
 
 if %errorlevel% neq 0 exit /b 1
 
-msbuild QuantLibExt.sln /target:QuantLibExt /m /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+msbuild QuantLibExt.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+
+if %errorlevel% neq 0 exit /b 1
+
+cd ..\bin
+
+quantlibext-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
