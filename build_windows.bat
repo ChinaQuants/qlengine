@@ -26,9 +26,9 @@ cd build
 
 
 if %ADDRESS_MODEL%==Win64 (
-  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DQL_ENABLE_PARALLEL_UNIT_TEST_RUNNER ..
+  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 ) else (
-  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DQL_ENABLE_PARALLEL_UNIT_TEST_RUNNER ..
+  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 )
 
 if %errorlevel% neq 0 exit /b 1
