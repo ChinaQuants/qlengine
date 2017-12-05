@@ -11,7 +11,10 @@ export PATH=$PWD/bin:$PATH
 make -j 8
 make install
 
-cd ../QuantLib-Ext
+cd bin
+./quantlib-test-suite --log_level=message --build_info=true
+
+cd ../../QuantLib-Ext
 bash autogen.sh
 ./configure prefix=$PWD CXXFLAGS=-O2 CFLAGS=-O2
 
