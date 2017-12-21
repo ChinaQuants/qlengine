@@ -33,7 +33,7 @@ if %ADDRESS_MODEL%==Win64 (
 
 if %errorlevel% neq 0 exit /b 1
 
-msbuild Project.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+msbuild QuantLib.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 if %errorlevel% neq 0 exit /b 1
 
