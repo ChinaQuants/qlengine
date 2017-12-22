@@ -34,6 +34,7 @@ if %ADDRESS_MODEL%==Win64 (
 if %errorlevel% neq 0 exit /b 1
 
 msbuild QuantLib.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+msbuild INSTALL.vcxproj /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -62,6 +63,7 @@ if %ADDRESS_MODEL%==Win64 (
 if %errorlevel% neq 0 exit /b 1
 
 msbuild QuantLibExt.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+msbuild INSTALL.vcxproj /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
 
 if %errorlevel% neq 0 exit /b 1
 
