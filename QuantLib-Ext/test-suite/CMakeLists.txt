@@ -5,26 +5,22 @@ if (USE_BOOST_DYNAMIC_LIBRARIES)
 endif (USE_BOOST_DYNAMIC_LIBRARIES)
 
 find_package (Boost COMPONENTS unit_test_framework REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
 set (TEST quantlibext-test-suite)
 add_executable (${TEST} ${TEST_SUITE_FILES})
 
-target_link_libraries (${TEST} QuantLibExt)
+message(STATUS " - Starting Link: ${QL_EXT_OUTPUT_NAME}")
+message(STATUS " - Starting Link: ${QL_OUTPUT_NAME}")
 
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    if(NOT CMAKE_CL_64)
-        target_link_libraries(${TEST} QuantLib-vc140-mt-gd)
-    else()
-        target_link_libraries(${TEST} QuantLib-vc140-x64-mt-gd)
-    endif()
-elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    if(NOT CMAKE_CL_64)
-        target_link_libraries(${TEST} QuantLib-vc140-mt)
-    else()
-        target_link_libraries(${TEST} QuantLib-vc140-x64-mt)
-    endif()
-endif()
+target_link_libraries (${TEST} ${QL_LINK_LIBRARY}) 
+target_link_libraries (${TEST} ${QL_EXT_LINK_LIBRARY})
+target_link_libraries (${TEST} ${Boost_LIBRARIES})
 
+set_property(TARGET ${TEST} PROPERTY PROJECT_LABEL "testsuite")
+
+install(TARGETS ${TEST}
+        RUNTIME DESTINATION bin
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+        )
 
 enable_testing ()
 add_test (${TEST} ${TEST})
