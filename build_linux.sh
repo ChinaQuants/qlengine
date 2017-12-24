@@ -1,8 +1,7 @@
 #!/bin/sh
 
 cd QuantLib
-bash autogen.sh
-./configure prefix=$PWD CXXFLAGS=-O2 CFLAGS=-O2
+cmake -DCMAKE_INSTALL_PREFIX=$PWD ..
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
 export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
@@ -15,8 +14,7 @@ cd bin
 ./quantlib-test-suite --log_level=message --build_info=true
 
 cd ../../QuantLib-Ext
-bash autogen.sh
-./configure prefix=$PWD CXXFLAGS=-O2 CFLAGS=-O2
+cmake -DCMAKE_INSTALL_PREFIX=$PWD ..
 
 export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
 export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
