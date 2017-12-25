@@ -1,0 +1,36 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+# command to install dependencies
+sudo: enabled
+dist: trusty
+group: travis_lts
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-trusty-5.0
+    packages:
+      - clang-5.0
+      - libboost-all-dev
+      - make
+      - cmake
+      - swig
+env:
+  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+before_install:
+  - eval "${MATRIX_EVAL}"
+install:
+  - wget https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  # Useful for debugging any issues with conda
+  - conda info -a
+  # Replace dep1 dep2 ... with your dependencies
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+  - source activate test-environment
+script:
+  - bash ./build_linux.sh
