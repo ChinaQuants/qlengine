@@ -24,4 +24,4 @@ before_install:
 install:
   - pip install setuptools
 script:
-  - bash ./build_linux.sh
+  - bash build_linux.sh
