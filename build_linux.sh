@@ -1,28 +1,36 @@
 #!/bin/sh
 
 cd QuantLib
-cmake -DCMAKE_INSTALL_PREFIX=$PWD ..
+export WORK_DIR=$PWD
+mkdir build
+cd build
 
-export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
-export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
-export PATH=$PWD/bin:$PATH
+cmake -DCMAKE_INSTALL_PREFIX=$WORK_DIR ..
+
+export CPLUS_INCLUDE_PATH=$WORK_DIR/include:$CPLUS_INCLUDE_PATH
+export LIBRARY_PATH=$WORK_DIR/lib:$LIBRARY_PATH
+export PATH=$WORK_DIR/bin:$PATH
 
 make -j 8
 make install
 
-cd bin
+cd ../bin
 ./quantlib-test-suite --log_level=message --build_info=true
 
 cd ../../QuantLib-Ext
-cmake -DCMAKE_INSTALL_PREFIX=$PWD ..
+export WORK_DIR=$PWD
+mkdir build
+cd build
 
-export CPLUS_INCLUDE_PATH=$PWD/include:$CPLUS_INCLUDE_PATH
-export LIBRARY_PATH=$PWD/lib:$LIBRARY_PATH
+cmake -DCMAKE_INSTALL_PREFIX=$WORK_DIR ..
+
+export CPLUS_INCLUDE_PATH=$WORK_DIR/include:$CPLUS_INCLUDE_PATH
+export LIBRARY_PATH=$WORK_DIR/lib:$LIBRARY_PATH
 
 make -j 8
 make install
 
-cd bin
+cd ../bin
 ./quantlibext-test-suite --log_level=message --build_info=true
 
 cd ../../QuantLib-SWIG/Python
