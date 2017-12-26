@@ -22,6 +22,6 @@ env:
 before_install:
   - eval "${MATRIX_EVAL}"
 install:
-  -pip install setuptools
+  - pip install setuptools
 script:
   - bash ./build_linux.sh
