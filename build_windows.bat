@@ -41,7 +41,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-rem quantlib-test-suite --log_level=message --build_info=true
+quantlib-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -70,7 +70,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-rem quantlibext-test-suite --log_level=message --build_info=true
+quantlibext-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
