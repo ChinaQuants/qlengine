@@ -8,6 +8,7 @@ set QLEXT_DIR=%CD%\QuantLib-Ext
 set BUILD_TYPE=Release
 set ADDRESS_MODEL=Win64
 set MSVC_RUNTIME=dynamic
+set VS_VERSION=Visual Studio 14 2015
 
 cd QuantLib
 
@@ -27,9 +28,9 @@ cd build
 
 
 if %ADDRESS_MODEL%==Win64 (
-  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 ) else (
-  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 )
 
 if %errorlevel% neq 0 exit /b 1
@@ -56,9 +57,9 @@ if exist build (
 cd build
 
 if %ADDRESS_MODEL%==Win64 (
-  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 ) else (
-  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 )
 
 if %errorlevel% neq 0 exit /b 1
