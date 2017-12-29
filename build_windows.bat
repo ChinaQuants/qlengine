@@ -7,6 +7,7 @@ set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
 set BUILD_TYPE=Release
 set ADDRESS_MODEL=Win64
+set MSVC_RUNTIME=dynamic
 
 cd QuantLib
 
@@ -26,9 +27,9 @@ cd build
 
 
 if %ADDRESS_MODEL%==Win64 (
-  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% --target install ..
+  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 ) else (
-  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% --target install ..
+  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 )
 
 if %errorlevel% neq 0 exit /b 1
@@ -40,7 +41,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-quantlib-test-suite --log_level=message --build_info=true
+rem quantlib-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -55,9 +56,9 @@ if exist build (
 cd build
 
 if %ADDRESS_MODEL%==Win64 (
-  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% --target install ..
+  cmake -G "Visual Studio 14 2015 %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 ) else (
-  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% --target install ..
+  cmake -G "Visual Studio 14 2015" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 )
 
 if %errorlevel% neq 0 exit /b 1
@@ -69,14 +70,28 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-quantlibext-test-suite --log_level=message --build_info=true
+rem quantlibext-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
 cd ..\..\QuantLib-SWIG\Python
 
 python setup.py wrap
-python setup.py build
+
+if %MSVC_RUNTIME% neq static (
+  if %BUILD_TYPE% neq Release (
+    python setup.py build --debug
+  ) else (
+    python setup.py build
+  )
+) else (
+  if %BUILD_TYPE% neq Release (
+    python setup.py build --static --debug
+  ) else (
+    python setup.py build --static
+  )
+)
+
 python setup.py bdist_wheel
 
 if %errorlevel% neq 0 exit /b 1
