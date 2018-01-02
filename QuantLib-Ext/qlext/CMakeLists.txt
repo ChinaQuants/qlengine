@@ -1,7 +1,5 @@
-
 get_quantlib_library_name(QL_OUTPUT_NAME)
 get_quantlib_ext_library_name(QL_EXT_OUTPUT_NAME)
-
 
 file(GLOB_RECURSE QUANTLIB_EXT_FILES "*.hpp" "*.cpp")
 if(WIN32)
@@ -15,7 +13,11 @@ else()
     add_library(${QL_EXT_OUTPUT_NAME} ${QUANTLIB_EXT_FILES})
 endif()
 
-set(QL_LINK_LIBRARY ${QL_OUTPUT_NAME} PARENT_SCOPE)
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    set(QL_LINK_LIBRARY "${QL_OUTPUT_NAME}${CMAKE_DEBUG_POSTFIX}" PARENT_SCOPE)
+else()
+    set(QL_LINK_LIBRARY ${QL_OUTPUT_NAME} PARENT_SCOPE)
+endif()
 set(QL_EXT_LINK_LIBRARY ${QL_EXT_OUTPUT_NAME} PARENT_SCOPE)
 
 install(DIRECTORY . DESTINATION include/qlext
