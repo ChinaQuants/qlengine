@@ -29,5 +29,6 @@ install:
   - ./b2 -j8
   - sudo ./b2 install
   - pip install setuptools
+  - cd ..
 script:
   - bash build_linux.sh
