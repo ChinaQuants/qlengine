@@ -11,24 +11,18 @@ group: travis_lts
 addons:
   apt:
     sources:
-      - llvm-toolchain-trusty-5.0
+      - ubuntu-toolchain-r-test
     packages:
-      - clang-5.0
+      - g++-7
       - make
       - cmake
+      - libboost-dev-all
       - swig
 env:
-  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 before_install:
   - eval "${MATRIX_EVAL}"
 install:
-  - wget https://ncu.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.bz2
-  - tar -xjf boost_1_59_0.tar.bz2
-  - cd boost_1_59_0
-  - ./bootstrap.sh --prefix=/usr
-  - ./b2 -j8
-  - sudo ./b2 install
   - pip install setuptools
-  - cd ..
 script:
   - bash build_linux.sh
