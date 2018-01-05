@@ -21,10 +21,13 @@ env:
   - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 before_install:
   - eval "${MATRIX_EVAL}"
-  - sudo add-apt-repository -y ppa:boost-latest/ppa
-  - sudo apt-get -qq update
 install:
+  - wget https://ncu.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.bz2
+  - tar -xjf boost_1_59_0.tar.bz2
+  - cd boost_1_59_0
+  - ./bootstrap --prefix=/usr
+  - ./b2 -j8
+  - sudo ./b2 install
   - pip install setuptools
-  - sudo apt-get -qq install libboost1.64-all-dev
 script:
   - bash build_linux.sh
