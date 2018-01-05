@@ -1,5 +1,8 @@
 #!/bin/sh
 
+export QL_DIR=$PWD/QuantLib
+export QLEXT_DIR=$PWD/QuantLib-Ext
+
 cd QuantLib
 export WORK_DIR=$PWD
 mkdir build
