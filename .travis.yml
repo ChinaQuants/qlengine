@@ -14,7 +14,6 @@ addons:
       - llvm-toolchain-trusty-5.0
     packages:
       - clang-5.0
-      - libboost-all-dev
       - make
       - cmake
       - swig
