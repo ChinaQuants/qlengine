@@ -16,7 +16,7 @@ addons:
       - g++-7
       - make
       - cmake
-      - libboost-dev-all
+      - libboost-all-dev
       - swig
 env:
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
