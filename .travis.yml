@@ -7,18 +7,47 @@ python:
 sudo: enabled
 dist: trusty
 group: travis_lts
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-7
-      - make
-      - cmake
-      - libboost-all-dev
-      - swig
-env:
-  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - make
+            - cmake
+            - libboost-all-dev
+            - swig
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - make
+            - cmake
+            - libboost-all-dev
+            - swig
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+            - make
+            - cmake
+            - libboost-all-dev
+            - swig
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 before_install:
   - eval "${MATRIX_EVAL}"
 install:
