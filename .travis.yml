@@ -25,6 +25,7 @@ env:
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 before_install:
   - eval "${MATRIX_EVAL}"
+  - ln -s /usr/bin/swig /usr/bin/swig3
 install:
   - pip install setuptools
 script:
