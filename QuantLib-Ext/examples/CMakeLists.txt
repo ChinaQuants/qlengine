@@ -1,4 +1,5 @@
 add_subdirectory(CTBZeroBond)
 add_subdirectory(SubPeriodsSwap)
+add_subdirectory(SubPeriodsSwap2)
 add_subdirectory(ShiborSwap)
 add_subdirectory(AutoCallable)
