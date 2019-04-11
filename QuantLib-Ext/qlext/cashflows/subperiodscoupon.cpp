@@ -24,8 +24,6 @@
 #include <qlext/cashflows/subperiodscouponpricer.hpp>
 #include <qlext/cashflows/couponpricer.hpp>
 
-using namespace QuantLib;
-
 namespace QuantLib {
 
     namespace Ext {
