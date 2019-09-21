@@ -42,7 +42,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-rem quantlib-test-suite --log_level=message --build_info=true
+quantlib-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -75,7 +75,29 @@ quantlibext-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
-cd ..\..\QuantLib-SWIG\Python
+cd ..\..\examples\c++
+
+if exist build (
+  rem build folder already exists.
+) else (
+  mkdir build
+)
+
+cd build
+
+if %ADDRESS_MODEL%==Win64 (
+  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+) else (
+  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
+)
+
+if %errorlevel% neq 0 exit /b 1
+
+msbuild Examples.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=%BUILD_TYPE% /p:Platform=%PLATFORM%
+
+if %errorlevel% neq 0 exit /b 1
+
+cd ..\..\..\QuantLib-SWIG\Python
 
 python setup.py wrap
 
