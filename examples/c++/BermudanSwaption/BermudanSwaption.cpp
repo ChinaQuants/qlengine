@@ -176,4 +176,5 @@ int main(int, char* []) {
     bbgBermudanSwaption.setPricingEngine(ext::shared_ptr<PricingEngine>(
             new TreeSwaptionEngine(bbgPiecewiseHW, 500, bbgDiscountingCurve)));
     std::cout << "Piecewise Hull-White price at " << bbgBermudanSwaption.NPV() << std::endl;
+    return 0;
 }

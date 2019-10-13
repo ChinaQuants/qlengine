@@ -58,3 +58,4 @@ endif()
 set(QL_EXT_LINK_LIBRARY ${QL_EXT_OUTPUT_NAME})
 
 add_subdirectory(BermudanSwaption)
+add_subdirectory(Interpolations)

@@ -12,6 +12,7 @@ config.log
 config.status
 *-h1
 QuantLib-Ext/bin/*
+*.pdb
 *.Plo
 *.Po
 *so*
