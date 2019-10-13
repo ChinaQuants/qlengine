@@ -27,13 +27,10 @@ int main(int, char* []) {
 
     InterpolatedZeroCurve<ForwardFlat> curve(refDates, refRates, dc, cal, ForwardFlat(), Continuous, Annual);
 
-    std::vector<Rate> calRates;
-    for(auto& date:refDates) {
-        calRates.push_back(curve.zeroRate(date, dc, Continuous));
-    }
 
-    for(auto i=0; i != calRates.size(); ++i) {
-        std::cout << refDates[i] << ": " << calRates[i] << std::endl;
+    for(size_t i=0; i != refDates.size(); ++i) {
+        Date date = refDates[i];
+        std::cout << refDates[i] << ": " << curve.zeroRate(date, dc, Continuous) << std::endl;
     }
 
     return 0;
