@@ -52,10 +52,11 @@ get_quantlib_ext_library_name(QL_EXT_OUTPUT_NAME)
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     set(QL_LINK_LIBRARY "${QL_OUTPUT_NAME}${CMAKE_DEBUG_POSTFIX}")
+    set(QL_EXT_LINK_LIBRARY "${QL_EXT_OUTPUT_NAME}${CMAKE_DEBUG_POSTFIX}")
 else()
     set(QL_LINK_LIBRARY ${QL_OUTPUT_NAME})
+    set(QL_EXT_LINK_LIBRARY ${QL_EXT_OUTPUT_NAME})
 endif()
-set(QL_EXT_LINK_LIBRARY ${QL_EXT_OUTPUT_NAME})
 
 add_subdirectory(BermudanSwaption)
 add_subdirectory(CallableBond)
