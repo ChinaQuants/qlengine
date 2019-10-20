@@ -38,3 +38,5 @@ QuantLib-Ext/.idea/*
 build
 include
 debug
+bin
+lib
