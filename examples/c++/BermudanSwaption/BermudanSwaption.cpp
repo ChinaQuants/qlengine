@@ -9,7 +9,7 @@
 #include <ql/math/interpolations/linearinterpolation.hpp>
 #include <ql/math/interpolations/cubicinterpolation.hpp>
 /* which libor curve? */
-#include <ql/indexes/ibor/USDLibor.hpp>
+#include <ql/indexes/ibor/usdlibor.hpp>
 #include <ql/indexes/ibor/fedfunds.hpp>
 
 #include <ql/cashflows/coupon.hpp>
