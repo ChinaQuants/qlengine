@@ -1,5 +1,6 @@
 .vs/*
 QuantLib/build/*
+QuantLib/include/
 QuantLib/lib/*
 QuantLib-Ext/build/*
 QuantLib-Ext/lib/*
