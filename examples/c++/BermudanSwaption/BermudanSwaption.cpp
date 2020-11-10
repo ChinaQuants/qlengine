@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <iterator>
 
 using namespace QuantLib;
 
