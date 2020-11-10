@@ -1,31 +1,30 @@
 language: python
 python:
-  - "2.7"
-  - "3.5"
   - "3.6"
+  - "3.7"
+  - "3.8"
+  - "3.9"
 # command to install dependencies
-sudo: enabled
-dist: trusty
-group: travis_lts
+sudo: required
+dist: bionic
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
-      - g++-6
       - g++-7
+      - g++-8
+      - g++-9
       - make
       - cmake
       - libboost-all-dev
-      - swig3.0
+      - swig
 env:
-  - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-  - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+  - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+  - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
 before_install:
   - eval "${MATRIX_EVAL}"
-  - sudo ln -s /usr/bin/swig3.0 /usr/bin/swig
 install:
   - pip install setuptools
 script:
