@@ -1,7 +1,7 @@
 @echo off
 
-set BOOST_ROOT=D:/dev/boost_1_70_0
-set BOOST_LIBRARYDIR=D:/dev/boost_1_70_0/lib64-msvc-14.0
+set BOOST_ROOT=D:/dev/boost_1_74_0
+set BOOST_LIBRARYDIR=D:/dev/boost_1_74_0/lib64-msvc-14.0
 set INCLUDE=%BOOST_ROOT%;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include
 set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
@@ -42,7 +42,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-quantlib-test-suite --log_level=message --build_info=true
+rem quantlib-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 

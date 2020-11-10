@@ -1,11 +1,11 @@
 language: python
+os: linux
 python:
   - "3.6"
   - "3.7"
   - "3.8"
   - "3.9"
 # command to install dependencies
-root: required
 dist: bionic
 addons:
   apt:
@@ -28,4 +28,4 @@ before_install:
 install:
   - pip install setuptools
 script:
-  - bash build_linux.sh
+  - bash -e build_linux.sh
