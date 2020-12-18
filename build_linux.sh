@@ -19,7 +19,7 @@ make -j $NUM_CORES
 make install
 
 cd ../bin
-# ./quantlib-test-suite --log_level=message --build_info=true
+./quantlib-test-suite --log_level=message --build_info=true
 
 cd ../../QuantLib-Ext
 export WORK_DIR=$PWD
