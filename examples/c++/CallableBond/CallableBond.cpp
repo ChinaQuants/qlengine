@@ -12,7 +12,7 @@ FixedRateBond bond(Date issueDate, Date maturity, Period tenor, Calendar cal,
 }
 
 CallabilitySchedule callSchedule(Date issueDate, Date maturity, Calendar cal, Real callPrice) {
-    Callability::Price price(callPrice, Callability::Price::Clean);
+    Bond::Price price(callPrice, Bond::Price::Clean);
     Date callDate = cal.advance(issueDate, 1 * Years);
     CallabilitySchedule sch;
     while(callDate < maturity) {
