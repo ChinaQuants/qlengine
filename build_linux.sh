@@ -1,4 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash -
+
+git submodule init
+git submoduel update
 
 export QL_DIR=$PWD/QuantLib
 export QLEXT_DIR=$PWD/QuantLib-Ext
