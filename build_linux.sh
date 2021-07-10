@@ -15,7 +15,7 @@ export LIBRARY_PATH=$WORK_DIR/lib:$LIBRARY_PATH
 export CPLUS_INCLUDE_PATH=$WORK_DIR/include:$CPLUS_INCLUDE_PATH
 
 bash autogen.sh
-./configure --enable-parallel-unit-test-runner
+./configure --prefix=$WORK_DIR --enable-parallel-unit-test-runner
 
 make -j $NUM_CORES
 make install
