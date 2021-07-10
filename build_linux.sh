@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -e
 
 export QL_DIR=$PWD/QuantLib
 export QLEXT_DIR=$PWD/QuantLib-Ext
