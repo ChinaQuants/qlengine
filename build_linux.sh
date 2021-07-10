@@ -20,7 +20,7 @@ bash autogen.sh
 make -j $NUM_CORES
 make install
 
-cd ../bin
+cd ./bin
 ./quantlib-test-suite --log_level=message --build_info=true
 
 cd ../../QuantLib-Ext
