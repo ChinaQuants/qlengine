@@ -51,7 +51,7 @@ make install
 
 echo $LD_LIBRARY_PATH
 
-cd ../../../QuantLib-SWIG/Python
-python setup.py wrap
-python setup.py build
-python setup.py install --user
+# cd ../../../QuantLib-SWIG/Python
+# python setup.py wrap
+# python setup.py build
+# python setup.py install --user
