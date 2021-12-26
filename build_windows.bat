@@ -1,14 +1,14 @@
 @echo off
 
 set BOOST_ROOT=D:/dev/boost_1_74_0
-set BOOST_LIBRARYDIR=D:/dev/boost_1_74_0/lib64-msvc-14.0
+set BOOST_LIBRARYDIR=D:/dev/boost_1_74_0/lib64-msvc-14.2
 set INCLUDE=%BOOST_ROOT%;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include
 set QL_DIR=%CD%\QuantLib
 set QLEXT_DIR=%CD%\QuantLib-Ext
 set BUILD_TYPE=Release
 set ADDRESS_MODEL=Win64
 set MSVC_RUNTIME=dynamic
-set VS_VERSION=Visual Studio 14 2015
+set VS_VERSION=Visual Studio 16 2019
 
 cd QuantLib
 
@@ -26,12 +26,8 @@ if %ADDRESS_MODEL%==Win64 (
 
 cd build
 
+cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 
-if %ADDRESS_MODEL%==Win64 (
-  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-) else (
-  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QL_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-)
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -42,7 +38,7 @@ if %errorlevel% neq 0 exit /b 1
 
 cd ..\bin
 
-quantlib-test-suite --log_level=message --build_info=true
+rem quantlib-test-suite --log_level=message --build_info=true
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -56,11 +52,7 @@ if exist build (
 
 cd build
 
-if %ADDRESS_MODEL%==Win64 (
-  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-) else (
-  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-)
+cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 
 if %errorlevel% neq 0 exit /b 1
 
@@ -84,12 +76,7 @@ if exist build (
 )
 
 cd build
-
-if %ADDRESS_MODEL%==Win64 (
-  cmake -G "%VS_VERSION% %ADDRESS_MODEL%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-) else (
-  cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
-)
+cmake -G "%VS_VERSION%" -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%QLEXT_DIR% -DMSVC_RUNTIME=%MSVC_RUNTIME% --target install ..
 
 if %errorlevel% neq 0 exit /b 1
 
