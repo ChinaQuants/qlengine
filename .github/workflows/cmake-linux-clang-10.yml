@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.ci }}
       - name: Setup
         run: |
           sudo apt install -y clang-10 libboost-all-dev libgtest-dev libstdc++-10-dev libc++-10-dev libc++abi-10-dev make cmake swig build-essential
