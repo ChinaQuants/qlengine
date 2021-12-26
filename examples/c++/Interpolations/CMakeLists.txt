@@ -1,6 +1,6 @@
 add_executable(Interpolations Interpolations.cpp)
-target_link_libraries(Interpolations ${QL_EXT_LINK_LIBRARY})
-target_link_libraries(Interpolations ${QL_LINK_LIBRARY})
+target_link_libraries(Interpolations ${QL_OUTPUT_NAME})
+target_link_libraries(Interpolations ${QL_EXT_OUTPUT_NAME})
 
 install(TARGETS Interpolations
         RUNTIME DESTINATION bin

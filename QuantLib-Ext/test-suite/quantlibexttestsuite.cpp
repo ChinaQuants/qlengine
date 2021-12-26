@@ -34,7 +34,7 @@
 /* Use BOOST_MSVC instead of _MSC_VER since some other vendors (Metrowerks,
    for example) also #define _MSC_VER
 */
-#ifdef BOOST_MSVC
+#if !defined(BOOST_ALL_NO_LIB) && defined(BOOST_MSVC)
 #include <qlext/auto_link.hpp>
 #ifndef QL_ENABLE_PARALLEL_UNIT_TEST_RUNNER
 #define BOOST_LIB_NAME boost_unit_test_framework
@@ -159,11 +159,7 @@ test_suite* init_unit_test_suite(int, char* []) {
     const QuantLib::Settings& settings = QuantLib::Settings::instance();
     std::ostringstream header;
     header << " Testing "
-#ifdef BOOST_MSVC
-        QLEXT_LIB_NAME
-#else
               "QuantLib " QL_VERSION
-#endif
               "\n  QL_NEGATIVE_RATES "
 #ifdef QL_NEGATIVE_RATES
               "       defined"

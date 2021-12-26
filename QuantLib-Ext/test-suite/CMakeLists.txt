@@ -12,7 +12,7 @@ message(STATUS " - Starting Link: ${QL_EXT_OUTPUT_NAME}")
 message(STATUS " - Starting Link: ${QL_OUTPUT_NAME}")
 
 target_link_libraries (${TEST} ${QL_LINK_LIBRARY}) 
-target_link_libraries (${TEST} ${QL_EXT_LINK_LIBRARY})
+target_link_libraries (${TEST} ql_ext_library)
 target_link_libraries (${TEST} ${Boost_LIBRARIES})
 
 set_property(TARGET ${TEST} PROPERTY PROJECT_LABEL "testsuite")

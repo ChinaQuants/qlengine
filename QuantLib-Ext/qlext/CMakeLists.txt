@@ -1,29 +1,21 @@
 get_quantlib_library_name(QL_OUTPUT_NAME)
-get_quantlib_ext_library_name(QL_EXT_OUTPUT_NAME)
 
 file(GLOB_RECURSE QUANTLIB_EXT_FILES "*.hpp" "*.cpp")
-if(WIN32)
-    if (${BUILD_SHARED_LIBS})
-        # Windows needs to link static library (nothing is declared to export in QuantLib)
-        message(FATAL_ERROR "You should build QuantLibExt in STATIC mode as nothing is exported from the library. Use BUILD_SHARED_LIBS=OFF")
-    endif()
-    add_library(${QL_EXT_OUTPUT_NAME} ${QUANTLIB_EXT_FILES})
-    set_property(TARGET ${QL_EXT_OUTPUT_NAME} PROPERTY PROJECT_LABEL "QuantLibExt")
-else()
-    add_library(${QL_EXT_OUTPUT_NAME} ${QUANTLIB_EXT_FILES})
-endif()
+list(FILTER QUANTLIB_EXT_FILES EXCLUDE REGEX "auto_link.hpp")
+list(FILTER children_hpp EXCLUDE REGEX "quantlibext.hpp")
+add_library(ql_ext_library ${QUANTLIB_EXT_FILES})
+set_target_properties(ql_ext_library PROPERTIES
+    EXPORT_NAME ${PACKAGE_NAME}
+    OUTPUT_NAME ${PACKAGE_NAME}
+    VERSION ${QUANTLIB_EXT_VERSION}
+    SOVERSION ${QUANTLIB_EXT_VERSION_MAJOR})
 
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(QL_LINK_LIBRARY "${QL_OUTPUT_NAME}${CMAKE_DEBUG_POSTFIX}" PARENT_SCOPE)
-else()
-    set(QL_LINK_LIBRARY ${QL_OUTPUT_NAME} PARENT_SCOPE)
-endif()
-set(QL_EXT_LINK_LIBRARY ${QL_EXT_OUTPUT_NAME} PARENT_SCOPE)
+set(QL_LINK_LIBRARY ${QL_OUTPUT_NAME} PARENT_SCOPE)
 
 install(DIRECTORY . DESTINATION include/qlext
         FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h")
 
-install(TARGETS ${QL_EXT_OUTPUT_NAME}
+install(TARGETS ql_ext_library
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE

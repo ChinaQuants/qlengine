@@ -1,6 +1,6 @@
 add_executable(CallableBond CallableBond.cpp)
-target_link_libraries(CallableBond ${QL_EXT_LINK_LIBRARY})
-target_link_libraries(CallableBond ${QL_LINK_LIBRARY})
+target_link_libraries(CallableBond ${QL_OUTPUT_NAME})
+target_link_libraries(CallableBond ${QL_EXT_OUTPUT_NAME})
 
 install(TARGETS CallableBond
         RUNTIME DESTINATION bin

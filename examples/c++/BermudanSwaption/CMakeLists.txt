@@ -1,6 +1,6 @@
 add_executable(BermudanSwaption BermudanSwaption.cpp)
-target_link_libraries(BermudanSwaption ${QL_EXT_LINK_LIBRARY})
-target_link_libraries(BermudanSwaption ${QL_LINK_LIBRARY})
+target_link_libraries(BermudanSwaption ${QL_OUTPUT_NAME})
+target_link_libraries(BermudanSwaption ${QL_EXT_OUTPUT_NAME})
 
 install(TARGETS BermudanSwaption
         RUNTIME DESTINATION bin
