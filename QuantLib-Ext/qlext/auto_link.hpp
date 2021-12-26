@@ -54,7 +54,7 @@
 #endif
 #endif
 
-#define QLEXT_LIB_NAME "QuantLibExt" QL_LIB_PLATFORM QL_LIB_THREAD_OPT QL_LIB_RT_OPT ".lib"
+#define QLEXT_LIB_NAME "QuantLibExt" QL_LIB_THREAD_OPT QL_LIB_RT_OPT QL_LIB_PLATFORM ".lib"
 
 #pragma comment(lib, QLEXT_LIB_NAME)
 #ifdef BOOST_LIB_DIAGNOSTIC
