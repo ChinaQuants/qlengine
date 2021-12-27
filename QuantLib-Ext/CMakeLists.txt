@@ -151,7 +151,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/lib)
 # Add subdirectories
 add_subdirectory(qlext)
 if (QL_EXT_BUILD_EXAMPLES)
-    add_subdirectory(Examples)
+    add_subdirectory(examples)
 endif()
 if (QL_EXT_BUILD_TEST_SUITE)
     add_subdirectory(test-suite)
