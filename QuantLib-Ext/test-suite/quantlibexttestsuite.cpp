@@ -29,8 +29,6 @@
 #include <boost/test/unit_test.hpp>
 #endif
 
-#include <boost/timer.hpp>
-
 /* Use BOOST_MSVC instead of _MSC_VER since some other vendors (Metrowerks,
    for example) also #define _MSC_VER
 */
@@ -58,26 +56,35 @@
 
 #include <iomanip>
 #include <iostream>
+#include <chrono>
 
 using namespace boost::unit_test_framework;
 
 namespace {
 
-boost::timer t;
 
-void startTimer() { t.restart(); }
+decltype(std::chrono::steady_clock::now()) start;
+
+void startTimer() {
+    start = std::chrono::steady_clock::now();
+}
+
 void stopTimer() {
-    double seconds = t.elapsed();
-    int hours = int(seconds / 3600);
+    auto stop = std::chrono::steady_clock::now();
+
+    double seconds = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() * 1e-3;
+    int hours = int(seconds/3600);
     seconds -= hours * 3600;
-    int minutes = int(seconds / 60);
+    int minutes = int(seconds/60);
     seconds -= minutes * 60;
-    std::cout << " \nTests completed in ";
+
+    std::cout << "\nTests completed in ";
     if (hours > 0)
         std::cout << hours << " h ";
     if (hours > 0 || minutes > 0)
         std::cout << minutes << " m ";
-    std::cout << std::fixed << std::setprecision(0) << seconds << " s\n" << std::endl;
+    std::cout << std::fixed << std::setprecision(0)
+                << seconds << " s\n" << std::endl;
 }
 
 void configure(QuantLib::Date evaluationDate) {

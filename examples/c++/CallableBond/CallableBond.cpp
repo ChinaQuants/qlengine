@@ -46,7 +46,7 @@ int main(int, char* []) {
     std::vector<Date> spotDates(std::begin(dates), std::end(dates));
     std::vector<Rate> spotRates(std::begin(ytms), std::end(ytms));
 
-    Thirty360 dc;
+    Thirty360 dc(Thirty360::BondBasis);
     NullCalendar cal;
     Linear interp;
     Compounding comp = Compounding::Compounded;
