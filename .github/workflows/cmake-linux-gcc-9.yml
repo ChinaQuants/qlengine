@@ -7,7 +7,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-          token: ${{ secrets.ci }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup
         run: |
           sudo apt install -y g++-9 libboost-all-dev libgtest-dev libc++-dev make cmake swig build-essential
