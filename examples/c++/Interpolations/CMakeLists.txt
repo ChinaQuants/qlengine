@@ -1,6 +1,10 @@
+get_quantlib_library_name(QL_LINK_LIBRARY)
+get_quantlib_ext_library_name(QL_EXT_LINK_LIBRARY)
+
 add_executable(Interpolations Interpolations.cpp)
 target_link_libraries(Interpolations ${QL_EXT_LINK_LIBRARY})
 target_link_libraries(Interpolations ${QL_LINK_LIBRARY})
+target_include_directories(Interpolations SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 
 install(TARGETS Interpolations
         RUNTIME DESTINATION bin

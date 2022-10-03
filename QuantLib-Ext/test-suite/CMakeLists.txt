@@ -1,3 +1,6 @@
+get_quantlib_library_name(QL_LINK_LIBRARY)
+message(STATUS "QL_LINK_LIBRARY: ${QL_LINK_LIBRARY}")
+
 file (GLOB TEST_SUITE_FILES "*.hpp" "*.cpp")
 
 if (USE_BOOST_DYNAMIC_LIBRARIES)
@@ -12,8 +15,9 @@ message(STATUS " - Starting Link: ${QL_EXT_OUTPUT_NAME}")
 message(STATUS " - Starting Link: ${QL_OUTPUT_NAME}")
 
 target_link_libraries (${TEST} ${QL_LINK_LIBRARY}) 
-target_link_libraries (${TEST} ${QL_EXT_LINK_LIBRARY})
+target_link_libraries (${TEST} ql_ext_library)
 target_link_libraries (${TEST} ${Boost_LIBRARIES})
+target_include_directories(${TEST} SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 
 set_property(TARGET ${TEST} PROPERTY PROJECT_LABEL "testsuite")
 

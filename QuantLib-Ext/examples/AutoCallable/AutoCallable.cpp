@@ -44,7 +44,7 @@ int main() {
     std::vector<Time> times(schedule.size());
     std::transform(schedule.begin(), schedule.end(), times.begin(),
                    boost::bind(&Actual365Fixed::yearFraction,
-                               dc, today, _1, Date(), Date()));
+                               dc, today, placeholders::_1, Date(), Date()));
 
     TimeGrid grid(times.begin(), times.end());
 

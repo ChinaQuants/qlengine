@@ -59,11 +59,11 @@ ext::shared_ptr<YieldTermStructure> makeTermStructures() {
     std::vector<Date> dcd(std::begin(discountingDates), std::end(discountingDates));
     std::vector<Rate> dcr(std::begin(discountingRates), std::end(discountingRates));
     ext::shared_ptr<InterpolatedDiscountCurve<Linear> > dcc =
-            ext::make_shared<InterpolatedDiscountCurve<Linear> >( dcd, dcr, Thirty360());
+            ext::make_shared<InterpolatedDiscountCurve<Linear> >( dcd, dcr, Thirty360(Thirty360::BondBasis));
     // show discount factor
     Size size = sizeof(discountingRates) / sizeof(discountingRates[0]);
     for (Size i=0; i<size; i++)
-        std::cout << discountingDates[i] << ", " << dcc->zeroRate(discountingDates[i], Thirty360(), Simple) << std::endl;
+        std::cout << discountingDates[i] << ", " << dcc->zeroRate(discountingDates[i], Thirty360(Thirty360::BondBasis), Simple) << std::endl;
 
     return dcc;
 }

@@ -12,7 +12,7 @@ FixedRateBond bond(Date issueDate, Date maturity, Period tenor, Calendar cal,
 }
 
 CallabilitySchedule callSchedule(Date issueDate, Date maturity, Calendar cal, Real callPrice) {
-    Callability::Price price(callPrice, Callability::Price::Clean);
+    Bond::Price price(callPrice, Bond::Price::Clean);
     Date callDate = cal.advance(issueDate, 1 * Years);
     CallabilitySchedule sch;
     while(callDate < maturity) {
@@ -46,7 +46,7 @@ int main(int, char* []) {
     std::vector<Date> spotDates(std::begin(dates), std::end(dates));
     std::vector<Rate> spotRates(std::begin(ytms), std::end(ytms));
 
-    Thirty360 dc;
+    Thirty360 dc(Thirty360::BondBasis);
     NullCalendar cal;
     Linear interp;
     Compounding comp = Compounding::Compounded;
