@@ -33,7 +33,9 @@ set(QLEXT_INSTALL_LIBDIR "lib" CACHE STRING "Installation directory for librarie
 set(QLEXT_INSTALL_INCLUDEDIR "include" CACHE STRING "Installation directory for headers")
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ${UNIX})
-option(QLEXT_TAGGED_LAYOUT "Library names use layout tags" ${MSVC})
+option(QL_EXT_TAGGED_LAYOUT "Library names use layout tags" ${MSVC})
+option(QL_EXT_BUILD_TEST_SUITE "Build test suite" ON)
+option(QL_EXT_BUILD_EXAMPLES "Build test suite" ON)
 
 # Boost static libs ON for MSVC
 if (NOT DEFINED Boost_USE_STATIC_LIBS)
@@ -54,7 +56,7 @@ if (NOT DEFINED QL_BOOST_VERSION)
     endif()
 endif()
 
-find_package(Boost ${QL_BOOST_VERSION} REQUIRED)
+find_package(Boost ${QL_BOOST_VERSION} COMPONENTS unit_test_framework REQUIRED)
 
 set(Boost_NO_WARN_NEW_VERSIONS ON)
 add_compile_definitions(BOOST_ALL_NO_LIB)
@@ -80,7 +82,7 @@ if (NOT DEFINED CMAKE_POSITION_INDEPENDENT_CODE)
 endif()
 
 # Check for library name layout tagging
-if (QLEXT_TAGGED_LAYOUT)
+if (QL_EXT_TAGGED_LAYOUT)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
         set(DEBUG_POSTFIX "-x64")
         set(RELEASE_POSTFIX "-x64")
