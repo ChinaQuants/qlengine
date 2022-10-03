@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 get_quantlib_library_name(QL_LINK_LIBRARY)
 message(STATUS "QL_LINK_LIBRARY: ${QL_LINK_LIBRARY}")
 
 file (GLOB TEST_SUITE_FILES "*.hpp" "*.cpp")
-=======
-get_quantlib_library_name(QL_OUTPUT_NAME)
-file(GLOB QL_EXT_TEST_SUITE_FILES "*.hpp" "*.cpp")
-list(FILTER QL_EXT_TEST_SUITE_FILES EXCLUDE REGEX "main.cpp")
->>>>>>> 5232d3fe1fa50a865fc6e630c075cd382160beaf
 
 if (USE_BOOST_DYNAMIC_LIBRARIES)
    add_definitions(-DBOOST_TEST_DYN_LINK)
@@ -28,18 +22,10 @@ endif()
 message(STATUS " - Starting Link: ql_ext_library")
 message(STATUS " - Starting Link: ${QL_OUTPUT_NAME}")
 
-<<<<<<< HEAD
 target_link_libraries (${TEST} ${QL_LINK_LIBRARY}) 
 target_link_libraries (${TEST} ql_ext_library)
 target_link_libraries (${TEST} ${Boost_LIBRARIES})
 target_include_directories(${TEST} SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
-=======
-target_link_libraries(ql_ext_test_suite PRIVATE
-        ${QL_OUTPUT_NAME}
-        ql_ext_library
-        ql_ext_unit_test_main
-        Boost::unit_test_framework)
->>>>>>> 5232d3fe1fa50a865fc6e630c075cd382160beaf
 
 
 install(TARGETS ql_ext_test_suite
