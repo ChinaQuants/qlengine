@@ -1,6 +1,6 @@
 @echo off
 
-@REM set INCLUDE=%BOOST_ROOT%;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include
+set INCLUDE=%BOOST_ROOT%
 call :set_variable QL_DIR %CD%\QuantLib %BUILD_TYPE%
 call :set_variable QLEXT_DIR %CD%\QuantLib-Ext %BUILD_TYPE%
 call :set_variable BUILD_TYPE Release %BUILD_TYPE%
@@ -114,21 +114,11 @@ if %errorlevel% neq 0 exit /b 1
 cd ..\..\..\QuantLib-SWIG\Python
 
 python setup.py wrap
-
-if %MSVC_RUNTIME% neq static (
-  if %BUILD_TYPE% neq Release (
+if %BUILD_TYPE% neq Release (
     python setup.py build --debug
-  ) else (
-    python setup.py build
-  )
 ) else (
-  if %BUILD_TYPE% neq Release (
-    python setup.py build --static --debug
-  ) else (
-    python setup.py build --static
-  )
+    python setup.py build
 )
-
 python setup.py bdist_wheel
 
 if %errorlevel% neq 0 exit /b 1

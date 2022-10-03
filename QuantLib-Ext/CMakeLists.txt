@@ -101,11 +101,17 @@ endif()
 
 # to reference headers via <ql/foo.hpp>, we need to add the root
 # directory of the project to includes
+include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/include)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../QuantLib/lib)
 
+# Add subdirectories
 add_subdirectory(qlext)
-add_subdirectory(examples)
-add_subdirectory(test-suite)
+if (QL_EXT_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+if (QL_EXT_BUILD_TEST_SUITE)
+    add_subdirectory(test-suite)
+endif()

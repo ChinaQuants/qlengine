@@ -1,9 +1,7 @@
 [submodule "QuantLib"]
 	path = QuantLib
-	url = https://github.com/ChinaQuants/QuantLib.git
-	branch = master
-    ignore = dirty
+	url = git@github.com:ChinaQuants/QuantLib.git
 
 [submodule "QuantLib-SWIG"]
 	path = QuantLib-SWIG
-	url = https://github.com/ChinaQuants/QuantLib-SWIG.git
+	url = git@github.com:ChinaQuants/QuantLib-SWIG.git

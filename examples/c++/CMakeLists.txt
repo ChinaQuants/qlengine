@@ -62,8 +62,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../QuantLib/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../QuantLib-Ext)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../QuantLib/lib)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../QuantLib-Ext/lib)
-get_quantlib_library_name(QL_OUTPUT_NAME)
-get_quantlib_ext_library_name(QL_EXT_OUTPUT_NAME)
 
 add_subdirectory(BermudanSwaption)
 add_subdirectory(CallableBond)

@@ -1,0 +1,34 @@
+name: CMake Linux build gcc-10
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup
+        run: |
+          sudo apt install -y g++-10 libboost-all-dev libgtest-dev libc++-dev make cmake swig build-essential
+      - name: Prepare
+        env:
+          CXXFLAGS: -O2
+          CC: gcc-10
+          CXX: g++-10
+        run: |
+          export CWD=$PWD
+          mkdir gtest
+          cp -r /usr/src/gtest/* gtest/
+          cd gtest
+          cmake CMakeLists.txt
+          make
+          sudo cp *.* /usr/lib/
+          cd $CWD
+      - name: Compile
+        env:
+          CXXFLAGS: -O2
+          CC: gcc-10
+          CXX: g++-10
+        run: |
+          bash -e ./build_linux.sh

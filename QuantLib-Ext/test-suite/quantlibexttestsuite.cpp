@@ -29,8 +29,29 @@
 #include <boost/test/unit_test.hpp>
 #endif
 
+<<<<<<< HEAD
 #include <boost/timer.hpp>
 
+=======
+/* Use BOOST_MSVC instead of _MSC_VER since some other vendors (Metrowerks,
+   for example) also #define _MSC_VER
+*/
+#if !defined(BOOST_ALL_NO_LIB) && defined(BOOST_MSVC)
+#include <qlext/auto_link.hpp>
+#ifndef QL_ENABLE_PARALLEL_UNIT_TEST_RUNNER
+#define BOOST_LIB_NAME boost_unit_test_framework
+#include <boost/config/auto_link.hpp>
+#undef BOOST_LIB_NAME
+#endif
+
+/* uncomment the following lines to unmask floating-point exceptions.
+   See http://www.wilmott.com/messageview.cfm?catid=10&threadid=9481
+*/
+//#  include <float.h>
+//   namespace { unsigned int u = _controlfp(_EM_INEXACT, _MCW_EM); }
+
+#endif
+>>>>>>> 5232d3fe1fa50a865fc6e630c075cd382160beaf
 #include "speedlevel.hpp"
 #include "utilities.hpp"
 
@@ -40,26 +61,35 @@
 
 #include <iomanip>
 #include <iostream>
+#include <chrono>
 
 using namespace boost::unit_test_framework;
 
 namespace {
 
-boost::timer t;
 
-void startTimer() { t.restart(); }
+decltype(std::chrono::steady_clock::now()) start;
+
+void startTimer() {
+    start = std::chrono::steady_clock::now();
+}
+
 void stopTimer() {
-    double seconds = t.elapsed();
-    int hours = int(seconds / 3600);
+    auto stop = std::chrono::steady_clock::now();
+
+    double seconds = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() * 1e-3;
+    int hours = int(seconds/3600);
     seconds -= hours * 3600;
-    int minutes = int(seconds / 60);
+    int minutes = int(seconds/60);
     seconds -= minutes * 60;
-    std::cout << " \nTests completed in ";
+
+    std::cout << "\nTests completed in ";
     if (hours > 0)
         std::cout << hours << " h ";
     if (hours > 0 || minutes > 0)
         std::cout << minutes << " m ";
-    std::cout << std::fixed << std::setprecision(0) << seconds << " s\n" << std::endl;
+    std::cout << std::fixed << std::setprecision(0)
+                << seconds << " s\n" << std::endl;
 }
 
 void configure(QuantLib::Date evaluationDate) {
@@ -141,11 +171,13 @@ test_suite* init_unit_test_suite(int, char* []) {
     const QuantLib::Settings& settings = QuantLib::Settings::instance();
     std::ostringstream header;
     header << " Testing "
+<<<<<<< HEAD
 #if !defined(BOOST_ALL_NO_LIB) && defined(BOOST_MSVC)
         QLEXT_LIB_NAME
 #else
+=======
+>>>>>>> 5232d3fe1fa50a865fc6e630c075cd382160beaf
               "QuantLib " QL_VERSION
-#endif
               "\n  QL_NEGATIVE_RATES "
 #ifdef QL_NEGATIVE_RATES
               "       defined"
